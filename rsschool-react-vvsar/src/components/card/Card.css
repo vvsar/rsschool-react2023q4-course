@@ -1,5 +1,6 @@
 .card {
   display: flex;
+  gap: 20px;
 }
 
 .image-box {
@@ -7,7 +8,7 @@
   height: 244px;
   border: solid 2px black;
   overflow: hidden;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .img {
@@ -15,4 +16,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.image-data {
+  text-align: left;
 }
