@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "npm run lint -- --fix",
-    "format:fix": "prettier --write *.{js,css,ts,tsx,jsx}",
+    "format:fix": "prettier ./ --write *.{js,css,ts,tsx,jsx}",
     "preview": "vite preview",
     "prepare": "husky install"
   },
