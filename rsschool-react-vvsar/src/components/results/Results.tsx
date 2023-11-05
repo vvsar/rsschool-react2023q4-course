@@ -1,11 +1,11 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import getResults from "../../api/api";
 import Card from "../card/Card";
 import "./Results.css";
 
-type ResultsPageProps = {
-  query: string;
-};
+// type ResultsPageProps = {
+//   word: string;
+// };
 
 type DataItem = {
   description: string | null;
@@ -19,49 +19,95 @@ type SearchResultsData = {
   results: DataItem[];
 };
 
-type State = {
-  resultsData: DataItem[];
-};
+// type State = {
+//   resultsData: DataItem[];
+// };
 
-class Results extends React.Component<ResultsPageProps, State> {
-  constructor(props: ResultsPageProps) {
-    super(props);
-    this.state = { resultsData: [] as DataItem[] };
-  }
+// class Results extends React.Component<ResultsPageProps, State> {
+//   constructor(props: ResultsPageProps) {
+//     super(props);
+//     this.state = { resultsData: [] as DataItem[] };
+//   }
 
-  fetchRandomCards = async () => {
-    const response = await getResults<DataItem[]>(this.props.query);
-    // console.log(response[0].id);
-    this.setState({ resultsData: response });
+//   fetchRandomCards = async () => {
+//     const response = await getResults<DataItem[]>(this.props.query);
+//     // console.log(response[0].id);
+//     this.setState({ resultsData: response });
+//   };
+
+//   fetchCards = async () => {
+//     const response = await getResults<SearchResultsData>(this.props.query);
+//     // console.log(response.total_pages);
+//     this.setState({ resultsData: response.results });
+//   };
+
+//   fetchResults = () => {
+//     if (this.props.query === "") {
+//       this.fetchRandomCards();
+//     } else {
+//       this.fetchCards();
+//     }
+//   };
+
+//   componentDidMount() {
+//     this.fetchResults();
+//   }
+
+//   componentDidUpdate(previousProps: ResultsPageProps) {
+//     if (previousProps.query === this.props.query) return;
+//     this.fetchResults();
+//   }
+
+//   render() {
+//     const cards =
+//       this.state.resultsData.length > 0 ? (
+//         this.state.resultsData.map((item, i) => (
+//           <Card
+//             url={item.urls.small}
+//             author={item.user.name}
+//             description={item.description}
+//             key={i}
+//           />
+//         ))
+//       ) : (
+//         <p>Sorry, but nothing was found.</p>
+//       );
+//     return <main className="results">{cards}</main>;
+//   }
+// }
+
+export default function Results({ word }: { word: string }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [resultsData, setResultsData] = useState([] as DataItem[]);
+
+  const fetchRandomCards = async () => {
+    const response = await getResults<DataItem[]>(word);
+    setResultsData(response);
   };
 
-  fetchCards = async () => {
-    const response = await getResults<SearchResultsData>(this.props.query);
-    // console.log(response.total_pages);
-    this.setState({ resultsData: response.results });
+  const fetchCards = async () => {
+    const response = await getResults<SearchResultsData>(word);
+    setResultsData(response.results);
   };
 
-  fetchResults = () => {
-    if (this.props.query === "") {
-      this.fetchRandomCards();
+  const fetchResults = () => {
+    if (word === "") {
+      return fetchRandomCards();
     } else {
-      this.fetchCards();
+      return fetchCards();
     }
   };
 
-  componentDidMount() {
-    this.fetchResults();
-  }
+  useEffect(() => {
+    setIsLoading(true);
+    fetchResults().then(() => setIsLoading(false));
+  }, [word]);
 
-  componentDidUpdate(previousProps: ResultsPageProps) {
-    if (previousProps.query === this.props.query) return;
-    this.fetchResults();
-  }
-
-  render() {
-    const cards =
-      this.state.resultsData.length > 0 ? (
-        this.state.resultsData.map((item, i) => (
+  return (
+    <main className="results">
+      {isLoading ? <p>Loading...</p> : null}
+      {resultsData.length > 0 ? (
+        resultsData.map((item, i) => (
           <Card
             url={item.urls.small}
             author={item.user.name}
@@ -71,9 +117,9 @@ class Results extends React.Component<ResultsPageProps, State> {
         ))
       ) : (
         <p>Sorry, but nothing was found.</p>
-      );
-    return <main className="results">{cards}</main>;
-  }
+      )}
+    </main>
+  );
 }
 
-export default Results;
+// export default Results;

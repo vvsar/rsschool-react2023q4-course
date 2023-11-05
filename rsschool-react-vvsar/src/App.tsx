@@ -36,7 +36,7 @@ class App extends React.Component<AppProps, AppState> {
           keyWord={this.state.searchInputValue}
           handleSubmit={this.handleSubmit}
         />
-        <Results query={this.state.searchInputValue} />
+        <Results word={this.state.searchInputValue} />
       </>
     );
   }
