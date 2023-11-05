@@ -45,6 +45,9 @@ export default function App() {
 
   return (
     <>
+      <p style={{ color: "red" }}>
+        <b>Module02 is not finished. Please check later!</b>
+      </p>
       <Header keyWord={searchInputValue} handleSubmit={handleSubmit} />
       <Results word={searchInputValue} />
     </>
