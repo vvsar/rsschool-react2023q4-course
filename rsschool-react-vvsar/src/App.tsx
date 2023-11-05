@@ -1,45 +1,54 @@
-import React from "react";
+import { useState } from "react";
 import Header from "./components/header/Header";
 import Results from "./components/results/Results";
 import "./App.css";
 
-// let keyWord = "";
-// if (typeof window !== "undefined") {
-//   const data = localStorage.getItem("keyWord");
-//   if (data !== null) {
-//     keyWord = data;
+// type AppProps = Record<string, never>;
+
+// type AppState = {
+//   searchInputValue: string;
+// };
+
+// class App extends React.Component<AppProps, AppState> {
+//   constructor(props: AppProps) {
+//     super(props);
+//     this.state = { searchInputValue: localStorage.getItem("keyWord") || "" };
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//   }
+
+//   handleSubmit(value: string) {
+//     localStorage.setItem("keyWord", value);
+//     this.setState({ searchInputValue: value });
+//   }
+
+//   render() {
+//     return (
+//       <>
+//         <Header
+//           keyWord={this.state.searchInputValue}
+//           handleSubmit={this.handleSubmit}
+//         />
+//         <Results word={this.state.searchInputValue} />
+//       </>
+//     );
 //   }
 // }
 
-type AppProps = Record<string, never>;
+export default function App() {
+  const initialSearchValue = localStorage.getItem("keyWord") || "";
+  const [searchInputValue, setSearchInputValue] = useState(initialSearchValue);
 
-type AppState = {
-  searchInputValue: string;
-};
-
-class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = { searchInputValue: localStorage.getItem("keyWord") || "" };
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(value: string) {
+  const handleSubmit = (value: string) => {
     localStorage.setItem("keyWord", value);
-    this.setState({ searchInputValue: value });
-  }
+    setSearchInputValue(value);
+  };
 
-  render() {
-    return (
-      <>
-        <Header
-          keyWord={this.state.searchInputValue}
-          handleSubmit={this.handleSubmit}
-        />
-        <Results word={this.state.searchInputValue} />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header keyWord={searchInputValue} handleSubmit={handleSubmit} />
+      <Results word={searchInputValue} />
+    </>
+  );
 }
 
-export default App;
+// export default App;
