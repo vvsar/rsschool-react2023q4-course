@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import getResults from "../../api/api";
+import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
 import "./Results.css";
 
@@ -80,6 +81,9 @@ type SearchResultsData = {
 export default function Results({ word, perPage }: ResultsPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsData, setResultsData] = useState([] as DataItem[]);
+  const [pageIsRandom, setPageIsRandom] = useState(false);
+  const pageNumber = 1;
+  const [totalNumber, setTotalNumber] = useState(0);
 
   const fetchRandomCards = async () => {
     const response = await getResults<DataItem[]>(word, perPage);
@@ -89,12 +93,15 @@ export default function Results({ word, perPage }: ResultsPageProps) {
   const fetchCards = async () => {
     const response = await getResults<SearchResultsData>(word, perPage);
     setResultsData(response.results);
+    setTotalNumber(response.total_pages);
   };
 
   const fetchResults = () => {
     if (word === "") {
+      setPageIsRandom(true);
       return fetchRandomCards();
     } else {
+      setPageIsRandom(false);
       return fetchCards();
     }
   };
@@ -107,6 +114,11 @@ export default function Results({ word, perPage }: ResultsPageProps) {
   return (
     <main className="results">
       {isLoading ? <p>Loading...</p> : null}
+      {pageIsRandom ? (
+        <p className="random-photos">RANDOM PHOTOS</p>
+      ) : (
+        <Pagination pageNumber={pageNumber} totalPages={totalNumber} />
+      )}
       {resultsData.length > 0 ? (
         resultsData.map((item, i) => (
           <Card

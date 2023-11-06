@@ -4,3 +4,17 @@
   margin: 20px;
   gap: 20px;
 }
+
+.random-photos {
+  width: 180px;
+  height: 40px;
+  border: solid 2px black;
+  border-radius: 20px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: #FFFFFF;
+  font-weight: 400;
+  line-height: 2;
+  background-color: #494C77;
+}
