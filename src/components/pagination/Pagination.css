@@ -31,16 +31,16 @@
   line-height: 2;
 }
 
-.inactive {
+.active-false {
   background-color: #494C77;
 }
 
-.active {
+.active-true {
   background-color: #AB4F66;
   transition: 0.3s;
 }
 
-.active:hover {
+.active-true:hover {
   cursor: pointer;
   background-color: #FF7F50;
 }

@@ -7,6 +7,7 @@ import "./Results.css";
 type ResultsPageProps = {
   word: string;
   perPage: string;
+  currentPage: string;
 };
 
 type DataItem = {
@@ -78,20 +79,28 @@ type SearchResultsData = {
 //   }
 // }
 
-export default function Results({ word, perPage }: ResultsPageProps) {
+export default function Results({
+  word,
+  perPage,
+  currentPage,
+}: ResultsPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsData, setResultsData] = useState([] as DataItem[]);
   const [pageIsRandom, setPageIsRandom] = useState(false);
-  const pageNumber = 1;
+  const [pageNumber, setPageNumber] = useState(currentPage);
   const [totalNumber, setTotalNumber] = useState(0);
 
   const fetchRandomCards = async () => {
-    const response = await getResults<DataItem[]>(word, perPage);
+    const response = await getResults<DataItem[]>(word, perPage, pageNumber);
     setResultsData(response);
   };
 
   const fetchCards = async () => {
-    const response = await getResults<SearchResultsData>(word, perPage);
+    const response = await getResults<SearchResultsData>(
+      word,
+      perPage,
+      pageNumber,
+    );
     setResultsData(response.results);
     setTotalNumber(response.total_pages);
   };
@@ -107,9 +116,13 @@ export default function Results({ word, perPage }: ResultsPageProps) {
   };
 
   useEffect(() => {
+    setPageNumber("1");
+  }, [word, perPage]);
+
+  useEffect(() => {
     setIsLoading(true);
     fetchResults().then(() => setIsLoading(false));
-  }, [word, perPage]);
+  }, [word, perPage, pageNumber]);
 
   return (
     <main className="results">
