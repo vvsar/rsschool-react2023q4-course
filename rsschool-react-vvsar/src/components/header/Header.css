@@ -6,6 +6,7 @@
   /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
+  gap: 20px;
   background: linear-gradient(330deg, #AB4F66, #494C77);
 }
 
@@ -52,4 +53,19 @@
   border: solid 2px #C0C0C0;
   border-left: solid 2px #000000;
   cursor: pointer;
+}
+
+.number-select-form {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.select-label {
+  color: #FFFFFF;
+}
+
+#number-select {
+  height: 40px;
+  border-radius: 3px;
 }

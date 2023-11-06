@@ -3,9 +3,10 @@ import getResults from "../../api/api";
 import Card from "../card/Card";
 import "./Results.css";
 
-// type ResultsPageProps = {
-//   word: string;
-// };
+type ResultsPageProps = {
+  word: string;
+  perPage: string;
+};
 
 type DataItem = {
   description: string | null;
@@ -76,17 +77,17 @@ type SearchResultsData = {
 //   }
 // }
 
-export default function Results({ word }: { word: string }) {
+export default function Results({ word, perPage }: ResultsPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsData, setResultsData] = useState([] as DataItem[]);
 
   const fetchRandomCards = async () => {
-    const response = await getResults<DataItem[]>(word);
+    const response = await getResults<DataItem[]>(word, perPage);
     setResultsData(response);
   };
 
   const fetchCards = async () => {
-    const response = await getResults<SearchResultsData>(word);
+    const response = await getResults<SearchResultsData>(word, perPage);
     setResultsData(response.results);
   };
 
@@ -101,7 +102,7 @@ export default function Results({ word }: { word: string }) {
   useEffect(() => {
     setIsLoading(true);
     fetchResults().then(() => setIsLoading(false));
-  }, [word]);
+  }, [word, perPage]);
 
   return (
     <main className="results">
