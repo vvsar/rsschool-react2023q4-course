@@ -37,10 +37,8 @@ import "./App.css";
 export default function App() {
   const initialSearchValue = localStorage.getItem("keyWord") || "";
   const initialPerPageValue = localStorage.getItem("perPage") || "4";
-  const initialCurrentPage = localStorage.getItem("currentPage") || "1";
   const [searchInputValue, setSearchInputValue] = useState(initialSearchValue);
   const [perPageValue, setPerPageValue] = useState(initialPerPageValue);
-  const [currentPage, setCurrentPage] = useState(initialCurrentPage);
 
   const handleSubmit = (value: string) => {
     localStorage.setItem("keyWord", value);
@@ -50,11 +48,6 @@ export default function App() {
   const handlePerPageChoice = (value: string) => {
     localStorage.setItem("perPage", value);
     setPerPageValue(value);
-  };
-
-  const changeCurrentPage = (value: string) => {
-    localStorage.setItem("currentPage", value);
-    setCurrentPage(value);
   };
 
   return (
@@ -68,11 +61,7 @@ export default function App() {
         handleSubmit={handleSubmit}
         handlePerPageChoice={handlePerPageChoice}
       />
-      <Results
-        word={searchInputValue}
-        perPage={perPageValue}
-        currentPage={currentPage}
-      />
+      <Results word={searchInputValue} perPage={perPageValue} />
     </>
   );
 }

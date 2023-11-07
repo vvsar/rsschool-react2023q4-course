@@ -7,7 +7,6 @@ import "./Results.css";
 type ResultsPageProps = {
   word: string;
   perPage: string;
-  currentPage: string;
 };
 
 type DataItem = {
@@ -16,7 +15,7 @@ type DataItem = {
   user: { name: string };
 };
 
-type SearchResultsData = {
+type ResponseData = {
   total: number;
   total_pages: number;
   results: DataItem[];
@@ -79,30 +78,24 @@ type SearchResultsData = {
 //   }
 // }
 
-export default function Results({
-  word,
-  perPage,
-  currentPage,
-}: ResultsPageProps) {
+export default function Results({ word, perPage }: ResultsPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsData, setResultsData] = useState([] as DataItem[]);
   const [pageIsRandom, setPageIsRandom] = useState(false);
-  const [pageNumber, setPageNumber] = useState(currentPage);
   const [totalNumber, setTotalNumber] = useState(0);
+  const [currentPage, setCurrentPage] = useState("1");
 
   const fetchRandomCards = async () => {
-    const response = await getResults<DataItem[]>(word, perPage, pageNumber);
+    const response = await getResults<DataItem[]>(word, perPage, currentPage);
     setResultsData(response);
   };
 
   const fetchCards = async () => {
-    const response = await getResults<SearchResultsData>(
-      word,
-      perPage,
-      pageNumber,
-    );
+    const response = await getResults<ResponseData>(word, perPage, currentPage);
     setResultsData(response.results);
-    setTotalNumber(response.total_pages);
+    // Hardcoded limitation of the total number of photos
+    const total = response.total < 120 ? response.total : 120;
+    setTotalNumber(Math.ceil(total / +perPage));
   };
 
   const fetchResults = () => {
@@ -116,22 +109,28 @@ export default function Results({
   };
 
   useEffect(() => {
-    setPageNumber("1");
+    setCurrentPage("1");
   }, [word, perPage]);
 
   useEffect(() => {
     setIsLoading(true);
     fetchResults().then(() => setIsLoading(false));
-  }, [word, perPage, pageNumber]);
+  }, [word, perPage, currentPage]);
 
   return (
     <main className="results">
-      {isLoading ? <p>Loading...</p> : null}
-      {pageIsRandom ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : pageIsRandom ? (
         <p className="random-photos">RANDOM PHOTOS</p>
       ) : (
-        <Pagination pageNumber={pageNumber} totalPages={totalNumber} />
+        <Pagination
+          pageNumber={currentPage}
+          totalPages={totalNumber}
+          changeCurrentPage={setCurrentPage}
+        />
       )}
+      {/* {} */}
       {resultsData.length > 0 ? (
         resultsData.map((item, i) => (
           <Card

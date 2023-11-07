@@ -99,8 +99,8 @@ export default function Header({
           <option value={"4"} key={4}>
             4
           </option>
-          <option value={"8"} key={8}>
-            8
+          <option value={"8"} key={9}>
+            9
           </option>
           <option value={"12"} key={12}>
             12
