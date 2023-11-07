@@ -32,6 +32,8 @@ export default function Header({
     handleSubmit(searchInputValue.trim());
   };
 
+  const placeHolder = "No pagination for random page. Please make a search";
+
   return (
     <header className="header">
       <div className="search-line">
@@ -39,6 +41,7 @@ export default function Header({
           <input
             className="search-input"
             type="search"
+            placeholder={placeHolder}
             value={searchInputValue}
             onChange={updateKeyWord}
           ></input>
