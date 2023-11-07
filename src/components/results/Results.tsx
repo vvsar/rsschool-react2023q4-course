@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import getResults from "../../api/api";
 import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
+import { useSearchParams } from "react-router-dom";
 import "./Results.css";
 
 type ResultsPageProps = {
@@ -21,69 +22,13 @@ type ResponseData = {
   results: DataItem[];
 };
 
-// type State = {
-//   resultsData: DataItem[];
-// };
-
-// class Results extends React.Component<ResultsPageProps, State> {
-//   constructor(props: ResultsPageProps) {
-//     super(props);
-//     this.state = { resultsData: [] as DataItem[] };
-//   }
-
-//   fetchRandomCards = async () => {
-//     const response = await getResults<DataItem[]>(this.props.query);
-//     // console.log(response[0].id);
-//     this.setState({ resultsData: response });
-//   };
-
-//   fetchCards = async () => {
-//     const response = await getResults<SearchResultsData>(this.props.query);
-//     // console.log(response.total_pages);
-//     this.setState({ resultsData: response.results });
-//   };
-
-//   fetchResults = () => {
-//     if (this.props.query === "") {
-//       this.fetchRandomCards();
-//     } else {
-//       this.fetchCards();
-//     }
-//   };
-
-//   componentDidMount() {
-//     this.fetchResults();
-//   }
-
-//   componentDidUpdate(previousProps: ResultsPageProps) {
-//     if (previousProps.query === this.props.query) return;
-//     this.fetchResults();
-//   }
-
-//   render() {
-//     const cards =
-//       this.state.resultsData.length > 0 ? (
-//         this.state.resultsData.map((item, i) => (
-//           <Card
-//             url={item.urls.small}
-//             author={item.user.name}
-//             description={item.description}
-//             key={i}
-//           />
-//         ))
-//       ) : (
-//         <p>Sorry, but nothing was found.</p>
-//       );
-//     return <main className="results">{cards}</main>;
-//   }
-// }
-
 export default function Results({ word, perPage }: ResultsPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [resultsData, setResultsData] = useState([] as DataItem[]);
   const [pageIsRandom, setPageIsRandom] = useState(false);
   const [totalNumber, setTotalNumber] = useState(0);
   const [currentPage, setCurrentPage] = useState("1");
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const fetchRandomCards = async () => {
     const response = await getResults<DataItem[]>(word, perPage, currentPage);
@@ -101,8 +46,12 @@ export default function Results({ word, perPage }: ResultsPageProps) {
   const fetchResults = () => {
     if (word === "") {
       setPageIsRandom(true);
+      setSearchParams({ page: "random", per_page: perPage });
+      console.log(searchParams);
       return fetchRandomCards();
     } else {
+      setSearchParams({ search: word, page: currentPage, per_page: perPage });
+      console.log(searchParams);
       setPageIsRandom(false);
       return fetchCards();
     }
