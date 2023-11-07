@@ -3,7 +3,7 @@ import "./Card.css";
 type CardProps = {
   url: string;
   author: string;
-  description: string | null;
+  // description: string | null;
 };
 
 // class Card extends React.Component<CardProps> {
@@ -33,8 +33,8 @@ export default function Card(props: CardProps) {
         <img className="img" src={props.url} alt={props.author}></img>
       </div>
       <div className="image-data">
-        <p>Author: {props.author}</p>
-        <p>Description: {props.description}</p>
+        <p className="author">Author: {props.author}</p>
+        {/* <p>Description: {props.description}</p> */}
       </div>
     </div>
   );

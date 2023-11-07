@@ -10,7 +10,7 @@ type ResultsPageProps = {
 };
 
 type DataItem = {
-  description: string | null;
+  // description: string | null;
   urls: { small: string };
   user: { name: string };
 };
@@ -130,16 +130,17 @@ export default function Results({ word, perPage }: ResultsPageProps) {
           changeCurrentPage={setCurrentPage}
         />
       )}
-      {/* {} */}
       {resultsData.length > 0 ? (
-        resultsData.map((item, i) => (
-          <Card
-            url={item.urls.small}
-            author={item.user.name}
-            description={item.description}
-            key={i}
-          />
-        ))
+        <div className="cards-container">
+          {resultsData.map((item, i) => (
+            <Card
+              url={item.urls.small}
+              author={item.user.name}
+              // description={item.description}
+              key={i}
+            />
+          ))}
+        </div>
       ) : (
         <p>Sorry, but nothing was found.</p>
       )}
