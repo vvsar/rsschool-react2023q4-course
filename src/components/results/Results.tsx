@@ -11,7 +11,6 @@ type ResultsPageProps = {
 };
 
 type DataItem = {
-  // description: string | null;
   urls: { small: string };
   user: { name: string };
 };
@@ -82,12 +81,7 @@ export default function Results({ word, perPage }: ResultsPageProps) {
       {resultsData.length > 0 ? (
         <div className="cards-container">
           {resultsData.map((item, i) => (
-            <Card
-              url={item.urls.small}
-              author={item.user.name}
-              // description={item.description}
-              key={i}
-            />
+            <Card url={item.urls.small} author={item.user.name} key={i} />
           ))}
         </div>
       ) : (
@@ -96,5 +90,3 @@ export default function Results({ word, perPage }: ResultsPageProps) {
     </main>
   );
 }
-
-// export default Results;
