@@ -22,9 +22,9 @@ export default function App() {
 
   return (
     <>
-      <p style={{ color: "red" }}>
+      {/* <p style={{ color: "red" }}>
         <b>Module02 is not finished. Please check later!</b>
-      </p>
+      </p> */}
       <Header
         keyWord={searchInputValue}
         perPage={perPageValue}

@@ -11,10 +11,19 @@ type ResultsPageProps = {
   perPage: string;
 };
 
+// type DataItem = {
+//   id: string;
+//   urls: { small: string };
+//   user: { name: string };
+// };
+
 type DataItem = {
   id: string;
-  urls: { small: string };
+  description: string | null;
+  alt_description: string;
+  urls: { small: string; regular: string };
   user: { name: string };
+  exif: { name: string };
 };
 
 type ResponseData = {
@@ -31,6 +40,8 @@ export default function Results({ word, perPage }: ResultsPageProps) {
   const [currentPage, setCurrentPage] = useState("1");
   const [, setSearchParams] = useSearchParams();
   const [cardToOpenId, setCardToOpenId] = useState("");
+  // temporary
+  const [resultsDataToOpen, setResultsDataToOpen] = useState({} as DataItem);
 
   const fetchRandomCards = async () => {
     const response = await getResults<DataItem[]>(word, perPage, currentPage);
@@ -66,14 +77,24 @@ export default function Results({ word, perPage }: ResultsPageProps) {
     fetchResults().then(() => setIsLoading(false));
   }, [word, perPage, currentPage]);
 
-  const onCardClick = (id: string) => {
+  // const onCardClick = (id: string) => {
+  //   if (cardToOpenId) return;
+  //   setCardToOpenId(id);
+  //   setSearchParams((params) => {
+  //     params.set("details_id", id);
+  //     return params;
+  //   });
+  //   setCardToOpenId(id);
+  // };
+
+  const onCardClick = (item: DataItem) => {
     if (cardToOpenId) return;
-    setCardToOpenId(id);
+    setCardToOpenId(item.id);
     setSearchParams((params) => {
-      params.set("details_id", id);
+      params.set("details_id", item.id);
       return params;
     });
-    setCardToOpenId(id);
+    setResultsDataToOpen(item);
   };
 
   const closeDetails = () => {
@@ -109,7 +130,8 @@ export default function Results({ word, perPage }: ResultsPageProps) {
               <div
                 className="card"
                 key={item.id}
-                onClick={() => onCardClick(item.id)}
+                // onClick={() => onCardClick(item.id)}
+                onClick={() => onCardClick(item)}
               >
                 <Card url={item.urls.small} author={item.user.name} />
               </div>
@@ -119,7 +141,8 @@ export default function Results({ word, perPage }: ResultsPageProps) {
           <p>Sorry, but nothing was found.</p>
         )}
         {!cardToOpenId ? null : (
-          <Detailes id={cardToOpenId} closeDetails={closeDetails} />
+          // <Detailes id={cardToOpenId} closeDetails={closeDetails} />
+          <Detailes item={resultsDataToOpen} closeDetails={closeDetails} />
         )}
       </div>
     </div>
