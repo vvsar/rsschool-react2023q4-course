@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import getResults from "../../api/api";
+import { getResults } from "../../api/api";
 import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
+import Detailes from "../details/Details";
 import { useSearchParams } from "react-router-dom";
 import "./Results.css";
 
@@ -11,6 +12,7 @@ type ResultsPageProps = {
 };
 
 type DataItem = {
+  id: string;
   urls: { small: string };
   user: { name: string };
 };
@@ -27,7 +29,8 @@ export default function Results({ word, perPage }: ResultsPageProps) {
   const [pageIsRandom, setPageIsRandom] = useState(false);
   const [totalNumber, setTotalNumber] = useState(0);
   const [currentPage, setCurrentPage] = useState("1");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
+  const [cardToOpenId, setCardToOpenId] = useState("");
 
   const fetchRandomCards = async () => {
     const response = await getResults<DataItem[]>(word, perPage, currentPage);
@@ -46,11 +49,9 @@ export default function Results({ word, perPage }: ResultsPageProps) {
     if (word === "") {
       setPageIsRandom(true);
       setSearchParams({ page: "random", per_page: perPage });
-      console.log(searchParams);
       return fetchRandomCards();
     } else {
       setSearchParams({ search: word, page: currentPage, per_page: perPage });
-      console.log(searchParams);
       setPageIsRandom(false);
       return fetchCards();
     }
@@ -65,8 +66,31 @@ export default function Results({ word, perPage }: ResultsPageProps) {
     fetchResults().then(() => setIsLoading(false));
   }, [word, perPage, currentPage]);
 
+  const onCardClick = (id: string) => {
+    if (cardToOpenId) return;
+    setCardToOpenId(id);
+    setSearchParams((params) => {
+      params.set("details_id", id);
+      return params;
+    });
+    setCardToOpenId(id);
+  };
+
+  const closeDetails = () => {
+    setCardToOpenId("");
+    setSearchParams((params) => {
+      params.delete("details_id");
+      return params;
+    });
+  };
+
+  const onCardsContainerClick = () => {
+    if (!cardToOpenId) return;
+    closeDetails();
+  };
+
   return (
-    <main className="results">
+    <div className="results">
       {isLoading ? (
         <p>Loading...</p>
       ) : pageIsRandom ? (
@@ -78,15 +102,26 @@ export default function Results({ word, perPage }: ResultsPageProps) {
           changeCurrentPage={setCurrentPage}
         />
       )}
-      {resultsData.length > 0 ? (
-        <div className="cards-container">
-          {resultsData.map((item, i) => (
-            <Card url={item.urls.small} author={item.user.name} key={i} />
-          ))}
-        </div>
-      ) : (
-        <p>Sorry, but nothing was found.</p>
-      )}
-    </main>
+      <div className="results-field">
+        {resultsData.length > 0 ? (
+          <div className="cards-container" onClick={onCardsContainerClick}>
+            {resultsData.map((item) => (
+              <div
+                className="card"
+                key={item.id}
+                onClick={() => onCardClick(item.id)}
+              >
+                <Card url={item.urls.small} author={item.user.name} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>Sorry, but nothing was found.</p>
+        )}
+        {!cardToOpenId ? null : (
+          <Detailes id={cardToOpenId} closeDetails={closeDetails} />
+        )}
+      </div>
+    </div>
   );
 }

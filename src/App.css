@@ -11,3 +11,7 @@
   background-color: #D3D3A3;
 }
 
+.main {
+  display: flex;
+  margin: 10px;
+}

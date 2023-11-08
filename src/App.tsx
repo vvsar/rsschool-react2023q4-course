@@ -22,21 +22,23 @@ export default function App() {
 
   return (
     <>
+      <p style={{ color: "red" }}>
+        <b>Module02 is not finished. Please check later!</b>
+      </p>
+      <Header
+        keyWord={searchInputValue}
+        perPage={perPageValue}
+        handleSubmit={handleSubmit}
+        handlePerPageChoice={handlePerPageChoice}
+      />
       <Routes>
         <Route
           path="rsschool-react2023q4-course/"
           element={
             <>
-              <p style={{ color: "red" }}>
-                <b>Module02 is not finished. Please check later!</b>
-              </p>
-              <Header
-                keyWord={searchInputValue}
-                perPage={perPageValue}
-                handleSubmit={handleSubmit}
-                handlePerPageChoice={handlePerPageChoice}
-              />
-              <Results word={searchInputValue} perPage={perPageValue} />
+              <main className="main">
+                <Results word={searchInputValue} perPage={perPageValue} />
+              </main>
             </>
           }
         />
@@ -44,14 +46,3 @@ export default function App() {
     </>
   );
 }
-
-// return (
-//   <>
-//     <Routes>
-//       <Route
-//         path="rsschool-react2023q4-course"
-//         element={<Results word={searchInputValue} perPage={perPageValue} />}
-//       />
-//     </Routes>
-//   </>
-// );

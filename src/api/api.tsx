@@ -1,7 +1,7 @@
 const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
 const basicUrl = "https://api.unsplash.com";
 
-async function getResults<T>(
+export async function getResults<T>(
   query: string,
   perPage: string,
   currentPage: string,
@@ -20,4 +20,12 @@ async function getResults<T>(
   });
 }
 
-export default getResults;
+export async function getPhoto<T>(id: string): Promise<T> {
+  const url = `${basicUrl}/photos/${id}/?client_id=${CLIENT_ID}`;
+  return await fetch(url).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return response.json();
+  });
+}
