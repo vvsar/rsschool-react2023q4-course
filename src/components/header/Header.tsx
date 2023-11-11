@@ -36,6 +36,9 @@ export default function Header({
 
   return (
     <header className="header">
+      <div className="page-title">
+        <span>FIND IMAGES ON</span>
+      </div>
       <div className="search-line">
         <form className="search-form" onSubmit={onSubmit}>
           <input

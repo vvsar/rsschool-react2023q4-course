@@ -10,8 +10,29 @@
   background: linear-gradient(330deg, #AB4F66, #494C77);
 }
 
+.page-title {
+  width: 220px;
+  height: 70px;
+  padding-top: 5px;
+  border: solid 2px #FFFFFF;
+  border-radius: 35px;
+  background-image: url(../../assets/unsplash_wordmark_logo.svg);
+  background-position: bottom center;
+  background-size: 80%;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+
+.page-title span {
+  text-align: center;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  color: #FFFFFF;
+}
+
 .search-line {
-  width: calc(100% - 240px);
+  width: calc(100% - 320px);
   height: 40px;
   border: solid 1px #000000;
   border-radius: 3px;
