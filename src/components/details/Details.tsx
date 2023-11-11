@@ -17,7 +17,7 @@ type DetailsProps = {
   closeDetails: () => void;
 };
 
-export default function Detailes({ item, closeDetails }: DetailsProps) {
+export default function Details({ item, closeDetails }: DetailsProps) {
   return (
     <div className="results">
       <div className="details">

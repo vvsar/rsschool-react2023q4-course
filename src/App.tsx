@@ -1,47 +1,16 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import Header from "./components/header/Header";
-import Results from "./components/results/Results";
+import MainPage from "./MainPage";
+import Details from "./components/details/Details";
+import Page404 from "./pages/404/404";
 import "./App.css";
-
 export default function App() {
-  const initialSearchValue = localStorage.getItem("keyWord") || "";
-  const initialPerPageValue = localStorage.getItem("perPage") || "4";
-  const [searchInputValue, setSearchInputValue] = useState(initialSearchValue);
-  const [perPageValue, setPerPageValue] = useState(initialPerPageValue);
-
-  const handleSubmit = (value: string) => {
-    localStorage.setItem("keyWord", value);
-    setSearchInputValue(value);
-  };
-
-  const handlePerPageChoice = (value: string) => {
-    localStorage.setItem("perPage", value);
-    setPerPageValue(value);
-  };
-
   return (
     <>
-      {/* <p style={{ color: "red" }}>
-        <b>Module02 is not finished. Please check later!</b>
-      </p> */}
-      <Header
-        keyWord={searchInputValue}
-        perPage={perPageValue}
-        handleSubmit={handleSubmit}
-        handlePerPageChoice={handlePerPageChoice}
-      />
       <Routes>
-        <Route
-          path="rsschool-react2023q4-course/"
-          element={
-            <>
-              <main className="main">
-                <Results word={searchInputValue} perPage={perPageValue} />
-              </main>
-            </>
-          }
-        />
+        <Route path="rsschool-react2023q4-course/" element={<MainPage />}>
+          <Route path="details/:id" element={<Details />} />
+        </Route>
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </>
   );
