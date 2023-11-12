@@ -84,10 +84,11 @@ export default function Results({ word, perPage }: ResultsPageProps) {
 
   const closeDetails = () => {
     setCardToOpenId("");
-    setSearchParams((params) => {
-      params.delete("details_id");
-      return params;
-    });
+    // setSearchParams((params) => {
+    //   params.delete("details_id");
+    //   return params;
+    // });
+    navigate("/rsschool-react2023q4-course");
   };
 
   const onCardsContainerClick = () => {

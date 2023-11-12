@@ -1,7 +1,9 @@
 .colored {
+  position: sticky;
+  top: 10px;
   width: 360px;
+  margin: 10px;
   max-height: 98vh;
-  background-color: red;
 }
 
 .details {
