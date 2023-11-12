@@ -21,6 +21,7 @@ export async function getResults<T>(
 }
 
 export async function getPhoto<T>(id: string): Promise<T> {
+  console.log(id);
   const url = `${basicUrl}/photos/${id}/?client_id=${CLIENT_ID}`;
   return await fetch(url).then((response) => {
     if (!response.ok) {

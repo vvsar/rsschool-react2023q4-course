@@ -1,6 +1,7 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { getPhoto } from "../../api/api";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+// import { useNavigate, useParams } from "react-router-dom";
+import { getPhoto } from "../../api/api";
 import "./Details.css";
 
 type DataItem = {
@@ -12,78 +13,91 @@ type DataItem = {
   exif: { name: string | null };
 };
 
-type DetailsProps = {
-  item: DataItem;
-  closeDetails: () => void;
-};
+export default function Details() {
+  const [isLoading, setIsLoading] = useState(false);
+  // const navigate = useNavigate();
+  const [resultsData, setResultsData] = useState({} as DataItem);
 
-export default function Details({ item, closeDetails }: DetailsProps) {
+  const { id } = useParams();
+
+  const fetchPhoto = async () => {
+    console.log("search is on");
+    const response = await getPhoto<DataItem>(id as string);
+    setResultsData(response);
+    console.log(resultsData.id);
+  };
+
+  // const fetchResults = () => {
+  //   return fetchPhoto();
+  // };
+
+  useEffect(() => {
+    // if (!id) return;
+    console.log(isLoading);
+    setIsLoading(true);
+    console.log(isLoading);
+    fetchPhoto().then(() => {
+      setIsLoading(false);
+      // console.log(resultsData.id);
+    });
+  }, [id]);
+
+  // const closeDetails = () => {
+  //   navigate("/");
+  // };
+
+  // return (
+  //   <div className="colored">
+  //     {isLoading ? (
+  //       <p>Loading...</p>
+  //     ) : (
+  //       <div className="details">
+  //         <div className="photo-box">
+  //           <img
+  //             className="img"
+  //             src={resultsData.urls.regular}
+  //             alt={resultsData.alt_description}
+  //           ></img>
+  //         </div>
+  //         <div className="image-data">
+  //           <p className="text">Author: {resultsData.user.name}</p>
+  //           {resultsData.description ? null : (
+  //             <p className="text">{resultsData.description}</p>
+  //           )}
+  //           <p className="text">Camera: {resultsData.exif.name}</p>
+  //         </div>
+  //         <button className="close-button" onClick={closeDetails}>
+  //           CLOSE PANEL
+  //         </button>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+
+  // return (
+  //   <div className="colored">
+  //     <div className="details">
+  //       <div className="photo-box">
+  //         <img
+  //           className="img"
+  //           src={resultsData.urls.regular}
+  //           alt={resultsData.alt_description}
+  //         ></img>
+  //       </div>
+  //       <div className="image-data">
+  //         <p className="text">Author: {resultsData.user.name}</p>
+  //         {resultsData.description ? null : (
+  //           <p className="text">{resultsData.description}</p>
+  //         )}
+  //         <p className="text">Camera: {resultsData.exif.name}</p>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
   return (
-    <div className="results">
-      <div className="details">
-        <div className="photo-box">
-          <img
-            className="img"
-            src={item.urls.regular}
-            alt={item.alt_description}
-          ></img>
-        </div>
-        <div className="image-data">
-          <p className="text">Author: {item.user.name}</p>
-          {item.description ? null : <p className="text">{item.description}</p>}
-          {/* <p className="text">Camera: {item.exif.name}</p> */}
-          <p className="text">ID: {item.id}</p>
-        </div>
-        <button className="close-button" onClick={closeDetails}>
-          CLOSE PANEL
-        </button>
-      </div>
+    <div className="colored">
+      <p>{resultsData.urls.regular ? resultsData.urls.regular : "regular"}</p>
     </div>
   );
 }
-
-// export default function Detailes({ id, closeDetails }: DetailsProps) {
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [resultsData, setResultsData] = useState({} as DataItem);
-//   const fetchPhoto = async () => {
-//     const response = await getPhoto<DataItem>(id);
-//     setResultsData(response);
-//   };
-
-//   const fetchResults = () => {
-//     return fetchPhoto();
-//   };
-
-//   useEffect(() => {
-//     setIsLoading(true);
-//     fetchResults().then(() => setIsLoading(false));
-//   }, [id]);
-
-//   return (
-//     <div className="results">
-//       {isLoading ? (
-//         <p>Loading...</p>
-//       ) : (
-//         <div className="details">
-//           <div className="photo-box">
-//             <img
-//               className="img"
-//               src={resultsData.urls.regular}
-//               alt={resultsData.alt_description}
-//             ></img>
-//           </div>
-//           <div className="image-data">
-//             <p className="text">Author: {resultsData.user.name}</p>
-//             {resultsData.description ? null : (
-//               <p className="text">{resultsData.description}</p>
-//             )}
-//             <p className="text">Camera: {resultsData.exif.name}</p>
-//           </div>
-//           <button className="close-button" onClick={closeDetails}>
-//             CLOSE PANEL
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
