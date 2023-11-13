@@ -11,7 +11,7 @@
     "test": "",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "npm run lint -- --fix",
-    "format:fix": "npx prettier --write *.{js,css,ts,tsx,jsx}",
+    "format:fix": "npx prettier --write *.{js,css,ts,tsx,jsx,cjs}",
     "preview": "vite preview",
     "prepare": "husky install"
   },
