@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getResults } from "../../api/api";
 import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
-// import Detailes from "../details/Details";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./Results.css";
 
@@ -16,15 +15,6 @@ type DataItem = {
   urls: { small: string };
   user: { name: string };
 };
-
-// type DataItem = {
-//   id: string;
-//   description: string | null;
-//   alt_description: string;
-//   urls: { small: string; regular: string };
-//   user: { name: string };
-//   exif: { name: string };
-// };
 
 type ResponseData = {
   total: number;
@@ -84,11 +74,7 @@ export default function Results({ word, perPage }: ResultsPageProps) {
 
   const closeDetails = () => {
     setCardToOpenId("");
-    // setSearchParams((params) => {
-    //   params.delete("details_id");
-    //   return params;
-    // });
-    navigate("/rsschool-react2023q4-course");
+    navigate("/rsschool-react2023q4-course/");
   };
 
   const onCardsContainerClick = () => {

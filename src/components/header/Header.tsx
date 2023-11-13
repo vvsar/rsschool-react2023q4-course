@@ -1,35 +1,31 @@
-import React, { FormEvent, ChangeEvent, useState } from "react";
+import React, { FormEvent, ChangeEvent, useState, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
+import SearchContext from "../../contexts/SearchContext";
 import "./Header.css";
 
-type HeaderProps = {
-  keyWord: string;
-  perPage: string;
-  handleSubmit: (value: string) => void;
-  handlePerPageChoice: (value: string) => void;
-};
-
-export default function Header({
-  keyWord,
-  perPage,
-  handleSubmit,
-  handlePerPageChoice,
-}: HeaderProps) {
-  const [searchInputValue, setSearchInputValue] = useState(keyWord);
-  const [perPageValue, setPerPageValue] = useState(perPage);
+export default function Header() {
+  const [searchParams] = useSearchParams();
+  const searchContext = useContext(SearchContext);
+  const [keyWord, setKeyWord] = useState(searchContext.searchInputValue);
+  const [perPage, setPerPage] = useState(searchContext.perPageValue);
 
   const updateKeyWord = (e: FormEvent<HTMLInputElement>) => {
-    setSearchInputValue((e.target as HTMLInputElement).value);
+    setKeyWord((e.target as HTMLInputElement).value);
   };
 
   const updatePerPageValue = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    setPerPageValue(event.target.value);
-    handlePerPageChoice(event.target.value);
+    localStorage.setItem("perPage", event.target.value);
+    setPerPage(event.target.value);
+    searchParams.set("per_page", event.target.value);
+    searchContext.setPerPageValue(event.target.value);
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleSubmit(searchInputValue.trim());
+    localStorage.setItem("keyWord", keyWord.trim());
+    searchParams.set("search", keyWord.trim());
+    searchContext.setSearchInputValue(keyWord.trim());
   };
 
   const placeHolder = "No pagination for random page. Please make a search";
@@ -45,7 +41,7 @@ export default function Header({
             className="search-input"
             type="search"
             placeholder={placeHolder}
-            value={searchInputValue}
+            value={keyWord}
             onChange={updateKeyWord}
           ></input>
           <button className="search-button" type="submit"></button>
@@ -57,7 +53,7 @@ export default function Header({
         </label>
         <select
           id="number-select"
-          value={perPageValue}
+          value={perPage}
           onChange={updatePerPageValue}
         >
           <option value={"4"} key={4}>

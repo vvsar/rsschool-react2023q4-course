@@ -34,10 +34,6 @@ export default function Details() {
     // console.log(resultsData.urls.regular);
   };
 
-  // const fetchResults = () => {
-  //   return fetchPhoto();
-  // };
-
   useEffect(() => {
     // if (!id) return;
     // console.log(isLoading);
@@ -50,7 +46,7 @@ export default function Details() {
   }, [id]);
 
   const closeDetails = () => {
-    navigate("/rsschool-react2023q4-course");
+    navigate("/rsschool-react2023q4-course/");
   };
 
   return (
