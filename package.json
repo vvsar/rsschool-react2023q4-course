@@ -15,9 +15,13 @@
     "preview": "vite preview",
     "prepare": "husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.(js|jsx|ts|tsx|css)": [
-      "git add .",
+    "*.(js|jsx|ts|tsx|css|json)": [
       "npm run lint:fix",
       "npm run format:fix"
     ]
