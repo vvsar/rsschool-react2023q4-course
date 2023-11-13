@@ -1,16 +1,16 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getResults } from "../../api/api";
-import SearchContext from "../../contexts/SearchContext";
+// import SearchContext from "../../contexts/SearchContext";
 import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
 import { useNavigate } from "react-router-dom";
 import "./Results.css";
 
-// type ResultsPageProps = {
-//   word: string;
-//   perPage: string;
-// };
+type ResultsPageProps = {
+  word: string;
+  perPage: string;
+};
 
 type DataItem = {
   id: string;
@@ -24,34 +24,23 @@ type ResponseData = {
   results: DataItem[];
 };
 
-export default function Results() {
+export default function Results({ word, perPage }: ResultsPageProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [, setSearchParams] = useSearchParams();
-  const searchContext = useContext(SearchContext);
-  const [keyWord] = useState(searchContext.searchInputValue);
-  const [perPage] = useState(searchContext.perPageValue);
   const [resultsData, setResultsData] = useState([] as DataItem[]);
   const [pageIsRandom, setPageIsRandom] = useState(false);
   const [totalNumber, setTotalNumber] = useState(0);
   const [currentPage, setCurrentPage] = useState("1");
+  const [, setSearchParams] = useSearchParams();
   const [cardToOpenId, setCardToOpenId] = useState("");
   const navigate = useNavigate();
 
   const fetchRandomCards = async () => {
-    const response = await getResults<DataItem[]>(
-      keyWord,
-      perPage,
-      currentPage,
-    );
+    const response = await getResults<DataItem[]>(word, perPage, currentPage);
     setResultsData(response);
   };
 
   const fetchCards = async () => {
-    const response = await getResults<ResponseData>(
-      keyWord,
-      perPage,
-      currentPage,
-    );
+    const response = await getResults<ResponseData>(word, perPage, currentPage);
     setResultsData(response.results);
     // Hardcoded limitation of the total number of photos
     const total = response.total < 120 ? response.total : 120;
@@ -59,51 +48,47 @@ export default function Results() {
   };
 
   const fetchResults = () => {
-    if (!keyWord) {
+    if (word === "") {
       setPageIsRandom(true);
       setSearchParams({ page: "random", per_page: perPage });
       return fetchRandomCards();
     } else {
+      setSearchParams({ search: word, page: currentPage, per_page: perPage });
       setPageIsRandom(false);
-      setSearchParams({
-        search: keyWord,
-        page: currentPage,
-        per_page: perPage,
-      });
       return fetchCards();
     }
   };
 
   useEffect(() => {
     setCurrentPage("1");
-  }, [keyWord, perPage]);
+  }, [word, perPage]);
 
   useEffect(() => {
     setIsLoading(true);
     fetchResults().then(() => setIsLoading(false));
-  }, []);
+  }, [word, perPage, currentPage]);
 
   const onCardClick = (id: string) => {
     if (cardToOpenId) return;
     setCardToOpenId(id);
     let url: string;
-    if (!keyWord) {
+    if (!word) {
       url = `details/${id}/?page=random&per_page=${perPage}`;
     } else {
-      url = `details/${id}/?search=${keyWord}&page=${currentPage}&per_page=${perPage}`;
+      url = `details/${id}/?search=${word}&page=${currentPage}&per_page=${perPage}`;
     }
     navigate(url);
   };
 
   const closeDetails = () => {
     setCardToOpenId("");
-    let url: string;
-    if (!keyWord) {
-      url = `/rsschool-react2023q4-course/?page=random&per_page=${perPage}`;
+    let urlAddition: string;
+    if (!word) {
+      urlAddition = `?page=random&per_page=${perPage}`;
     } else {
-      url = `/rsschool-react2023q4-course/?search=${keyWord}&page=${currentPage}&per_page=${perPage}`;
+      urlAddition = `?search=${word}&page=${currentPage}&per_page=${perPage}`;
     }
-    navigate(url);
+    navigate(`/rsschool-react2023q4-course/${urlAddition}`);
   };
 
   const onCardsContainerClick = () => {

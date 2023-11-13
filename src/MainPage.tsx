@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
 import SearchContext from "./contexts/SearchContext";
 import Header from "./components/header/Header";
@@ -12,8 +12,6 @@ export default function MainPage() {
   const initialPerPageValue =
     searchParams.get("perPage") || localStorage.getItem("perPage") || "4";
   const [searchInputValue, setSearchInputValue] = useState(initialSearchValue);
-  const searchInputValueInRef = useRef(initialSearchValue);
-  searchInputValueInRef.current = searchInputValue;
   const [perPageValue, setPerPageValue] = useState(initialPerPageValue);
 
   return (
@@ -31,7 +29,7 @@ export default function MainPage() {
         </p>
         <Header />
         <main className="main">
-          <Results />
+          <Results word={searchInputValue} perPage={perPageValue} />
           <Outlet />
         </main>
       </>
