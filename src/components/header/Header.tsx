@@ -4,7 +4,7 @@ import SearchContext from "../../contexts/SearchContext";
 import "./Header.css";
 
 export default function Header() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchContext = useContext(SearchContext);
   const [keyWord, setKeyWord] = useState(searchContext.searchInputValue);
   const [perPage, setPerPage] = useState(searchContext.perPageValue);
@@ -15,17 +15,24 @@ export default function Header() {
 
   const updatePerPageValue = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    localStorage.setItem("perPage", event.target.value);
-    setPerPage(event.target.value);
-    searchParams.set("per_page", event.target.value);
-    searchContext.setPerPageValue(event.target.value);
+    const value = event.target.value;
+    localStorage.setItem("perPage", value);
+    setPerPage(value);
+    searchParams.set("per_page", value);
+    searchContext.setPerPageValue(value);
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    localStorage.setItem("keyWord", keyWord.trim());
+    const word = keyWord.trim();
+    localStorage.setItem("keyWord", word);
+    if (!word) {
+      setSearchParams({ page: "random", per_page: perPage });
+    } else {
+      setSearchParams({ search: word, page: "1", per_page: perPage });
+    }
     searchParams.set("search", keyWord.trim());
-    searchContext.setSearchInputValue(keyWord.trim());
+    searchContext.setSearchInputValue(word);
   };
 
   const placeHolder = "No pagination for random page. Please make a search";
