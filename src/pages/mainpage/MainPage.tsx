@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
-import SearchContext from "./contexts/SearchContext";
-import Header from "./components/header/Header";
-import Results from "./components/results/Results";
+import SearchContext from "../../contexts/SearchContext";
+import Header from "../../components/header/Header";
+import Results from "../../components/results/Results";
 import "./MainPage.css";
 
 export default function MainPage() {

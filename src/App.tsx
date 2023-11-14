@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import MainPage from "./MainPage";
+import MainPage from "./pages/mainpage/MainPage";
 import Details from "./components/details/Details";
 import Page404 from "./pages/404/404";
 import "./App.css";

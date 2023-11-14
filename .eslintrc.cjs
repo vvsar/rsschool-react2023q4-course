@@ -32,6 +32,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/no-explicit-any": "error",
   },
+  // ignorePatterns: ["**/*.css"],
   settings: {
     react: {
       version: "detect",
