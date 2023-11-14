@@ -6,7 +6,7 @@ import "./Header.css";
 export default function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchContext = useContext(SearchContext);
-  const [keyWord, setKeyWord] = useState(searchContext.searchInputValue);
+  const [keyWord, setKeyWord] = useState(localStorage.getItem("keyWord") || "");
   const [perPage, setPerPage] = useState(searchContext.perPageValue);
 
   const updateKeyWord = (e: FormEvent<HTMLInputElement>) => {

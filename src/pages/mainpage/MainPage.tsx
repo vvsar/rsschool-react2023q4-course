@@ -9,6 +9,7 @@ export default function MainPage() {
   const [searchParams] = useSearchParams();
   const initialSearchValue =
     searchParams.get("search") || localStorage.getItem("keyWord") || "";
+  localStorage.setItem("keyWord", initialSearchValue);
   const initialPerPageValue =
     searchParams.get("perPage") || localStorage.getItem("perPage") || "4";
   const [searchInputValue, setSearchInputValue] = useState(initialSearchValue);
