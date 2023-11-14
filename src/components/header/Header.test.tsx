@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./Header";
 
@@ -20,5 +20,21 @@ describe("Header component", () => {
     );
     const input = screen.getByRole("searchbox") as HTMLInputElement;
     expect(input.value).toBe("kitten");
+  });
+
+  test("Clicking the Search button saves the entered value to the local storage", () => {
+    render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>,
+    );
+    const button = screen.getByRole("button");
+    const input = screen.getByRole("searchbox") as HTMLInputElement;
+    input.value = "kitten";
+    act(() => {
+      button.click();
+    });
+
+    expect(localStorage.getItem("keyWord")).toBe("kitten");
   });
 });
