@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1699992790174" clover="3.2.0">
-  <project timestamp="1699992790175" name="All files">
-    <metrics statements="629" coveredstatements="121" conditionals="16" coveredconditionals="6" methods="17" coveredmethods="5" elements="662" coveredelements="132" complexity="0" loc="629" ncloc="629" packages="11" files="13" classes="13"/>
+<coverage generated="1700036157267" clover="3.2.0">
+  <project timestamp="1700036157267" name="All files">
+    <metrics statements="625" coveredstatements="121" conditionals="16" coveredconditionals="6" methods="17" coveredmethods="5" elements="658" coveredelements="132" complexity="0" loc="625" ncloc="625" packages="11" files="13" classes="13"/>
     <package name="src">
       <metrics statements="34" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="App.tsx" path="C:\CODE2023\rsschool-react2023q4-course\src\App.tsx">
@@ -111,9 +111,9 @@
       </file>
     </package>
     <package name="src.components.details">
-      <metrics statements="79" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="75" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="Details.tsx" path="C:\CODE2023\rsschool-react2023q4-course\src\components\details\Details.tsx">
-        <metrics statements="79" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="75" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -189,10 +189,6 @@
         <line num="73" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.components.error-boundary">

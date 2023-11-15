@@ -28,20 +28,14 @@ export default function Details() {
   const { id } = useParams();
 
   const fetchPhoto = async () => {
-    // console.log("search is on");
     const response = await getPhoto<DataItem>(id as string);
     setResultsData(response);
-    // console.log(resultsData.urls.regular);
   };
 
   useEffect(() => {
-    // if (!id) return;
-    // console.log(isLoading);
     setIsLoading(true);
-    // console.log(isLoading);
     fetchPhoto().then(() => {
       setIsLoading(false);
-      // console.log(resultsData.id);
     });
   }, [id]);
 
@@ -63,7 +57,9 @@ export default function Details() {
             ></img>
           </div>
           <div className="image-data">
-            <p className="text">Author: {resultsData.user.name}</p>
+            <p className="text" data-testid="author">
+              Author: {resultsData.user.name}
+            </p>
             {resultsData.description ? null : (
               <p className="text">{resultsData.description}</p>
             )}
