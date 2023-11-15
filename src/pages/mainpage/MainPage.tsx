@@ -25,9 +25,9 @@ export default function MainPage() {
       }}
     >
       <>
-        <p style={{ color: "red" }}>
+        {/* <p style={{ color: "red" }}>
           <b>Module03 is not finished. Please check later!</b>
-        </p>
+        </p> */}
         <Header />
         <main className="main">
           <Results word={searchInputValue} perPage={perPageValue} />
