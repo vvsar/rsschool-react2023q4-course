@@ -1,3 +1,8 @@
+export interface SearchState {
+  keyWord: string;
+  perPage: string;
+}
+
 export type SearchData = {
   keyWord: string;
   perPage: string;
@@ -14,6 +19,11 @@ export type ResponseData = {
   total: number;
   total_pages: number;
   results: DataItem[];
+};
+
+export type ResultsPageProps = {
+  word: string;
+  perPage: string;
 };
 
 export type DataItemExtended = {

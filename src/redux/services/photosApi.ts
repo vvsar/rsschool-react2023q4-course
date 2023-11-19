@@ -16,6 +16,7 @@ export const photosApi = createApi({
     getRandomPage: builder.query<DataItem[], string>({
       query: (perPage) =>
         `photos/random?count=${perPage}&client_id=${CLIENT_ID}`,
+      // transformResponse: (response) => response.json,
     }),
     getResultsPage: builder.query<ResponseData, SearchData>({
       query: (data) =>
