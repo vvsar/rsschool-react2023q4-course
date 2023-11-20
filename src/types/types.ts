@@ -1,6 +1,7 @@
 export interface SearchState {
   keyWord: string;
   perPage: string;
+  currentPage: string;
 }
 
 export type SearchData = {

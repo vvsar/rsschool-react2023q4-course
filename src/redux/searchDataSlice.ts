@@ -1,33 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { useSearchParams } from "react-router-dom";
+import { PayloadAction } from "@reduxjs/toolkit";
 import type { SearchState } from "../types/types";
 
-// export interface DispatchSearch {
-//   payload: string;
-//   type: "search/saveSearchValue";
-// }
-
-// const [searchParams] = useSearchParams();
 const initialSearchValue = localStorage.getItem("keyWord") || "";
 const initialPerPageValue = localStorage.getItem("perPage") || "4";
+const initialCurrentPageValue = localStorage.getItem("currentPage") || "1";
 
 const initialState: SearchState = {
   keyWord: initialSearchValue,
   perPage: initialPerPageValue,
+  currentPage: initialCurrentPageValue,
 };
 
 const searchDataSlice = createSlice({
   name: "searchData",
   initialState,
   reducers: {
-    saveSearchValue: (state, action): void => {
+    saveSearchValue: (state, action: PayloadAction<string>) => {
       state.keyWord = action.payload;
     },
-    savePerPageValue: (state, action): void => {
+    savePerPageValue: (state, action: PayloadAction<string>) => {
       state.perPage = action.payload;
+    },
+    saveCurrentPageValue: (state, action: PayloadAction<string>) => {
+      state.currentPage = action.payload;
     },
   },
 });
 
-export const { saveSearchValue, savePerPageValue } = searchDataSlice.actions;
+export const { saveSearchValue, savePerPageValue, saveCurrentPageValue } =
+  searchDataSlice.actions;
 export default searchDataSlice.reducer;
