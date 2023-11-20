@@ -19,19 +19,19 @@ export default function Header() {
   const placeHolder = "No pagination for random page. Please make a search";
 
   useEffect(() => {
+    let urlAddition: string;
     if (keyWord) {
       setSearchParams({
         search: searchData.keyWord,
         page: searchData.currentPage,
         per_page: searchData.perPage,
       });
-      const urlAddition = `?search=${searchData.keyWord}&page=${searchData.currentPage}&per_page=${searchData.perPage}`;
-      navigate(`/rsschool-react2023q4-course/${urlAddition}`);
+      urlAddition = `?search=${searchData.keyWord}&page=${searchData.currentPage}&per_page=${searchData.perPage}`;
     } else {
       setSearchParams({ page: "random", per_page: searchData.perPage });
-      const urlAddition = `?page=random&per_page=${searchData.perPage}`;
-      navigate(`/rsschool-react2023q4-course/${urlAddition}`);
+      urlAddition = `?page=random&per_page=${searchData.perPage}`;
     }
+    navigate(`/rsschool-react2023q4-course/${urlAddition}`);
   }, []);
 
   const updateKeyWord = (e: FormEvent<HTMLInputElement>) => {

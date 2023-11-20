@@ -7,18 +7,18 @@ import {
   useGetRandomPageQuery,
   useGetResultsPageQuery,
 } from "../../redux/services/photosApi";
-import Pagination from "../pagination/Pagination";
+import Pagination from "../pagination/PaginationR";
 import Card from "../card/Card";
 import { useNavigate } from "react-router-dom";
 import "./Results.css";
 
 export default function Results() {
-  const [currentPage, setCurrentPage] = useState("1");
   // const [, setSearchParams] = useSearchParams();
   const [cardToOpenId, setCardToOpenId] = useState("");
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const searchData = useSelector((state: AppState) => state.searchData);
+  const [currentPage, setCurrentPage] = useState(searchData.currentPage);
 
   const fetchResults = () => {
     if (!searchData.keyWord) {
@@ -90,7 +90,6 @@ export default function Results() {
         <p className="random-photos">RANDOM PHOTOS</p>
       ) : (
         <Pagination
-          pageNumber={currentPage}
           totalPages={totalNumber}
           changeCurrentPage={setCurrentPage}
         />

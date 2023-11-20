@@ -35,3 +35,21 @@ export type DataItemExtended = {
   user: { name: string };
   exif: { name: string | null };
 };
+
+// Pagination
+
+export type PaginationProps = {
+  totalPages: number;
+  changeCurrentPage: (value: string) => void;
+};
+
+export type BackButtonProps = {
+  pageNumber: string;
+  onClick: () => void;
+};
+
+export type ForwardButtonProps = {
+  pageNumber: string;
+  totalPages: number;
+  onClick: () => void;
+};
