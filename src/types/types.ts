@@ -53,3 +53,10 @@ export type ForwardButtonProps = {
   totalPages: number;
   onClick: () => void;
 };
+
+// Details
+
+export type DetailsState = {
+  isOpen: boolean;
+  id: string;
+};

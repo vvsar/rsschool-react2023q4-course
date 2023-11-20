@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit/";
 import { photosApi } from "./services/photosApi";
 import searchDataSlice from "./searchDataSlice";
+import detailsSlice from "./detailsSlice";
 
 const rootReducer = combineReducers({
   searchData: searchDataSlice,
+  detailsData: detailsSlice,
   [photosApi.reducerPath]: photosApi.reducer,
 });
 

@@ -1,74 +1,54 @@
-import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-import { useNavigate, useParams } from "react-router-dom";
-import { getPhoto } from "../../api/api";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../redux/store";
+import { useGetPhotoQuery } from "../../redux/services/photosApi";
+import { saveOpenStatus, saveId } from "../../redux/detailsSlice";
+import type { DataItemExtended } from "../../types/types";
 import "./Details.css";
 
-type DataItem = {
-  id: string;
-  description: string | null;
-  alt_description: string;
-  urls: { regular: string };
-  user: { name: string };
-  exif: { name: string | null };
-};
-
 export default function Details() {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const [resultsData, setResultsData] = useState({
-    id: "",
-    description: "",
-    alt_description: "",
-    urls: { regular: "" },
-    user: { name: "" },
-    exif: { name: "" },
-  } as DataItem);
+  const detailsData = useSelector((state: AppState) => state.detailsData);
+  const dispatch = useDispatch();
 
-  const { id } = useParams();
-
-  const fetchPhoto = async () => {
-    const response = await getPhoto<DataItem>(id as string);
-    setResultsData(response);
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetchPhoto().then(() => {
-      setIsLoading(false);
-    });
-  }, [id]);
+  const { data, isError, isLoading } = useGetPhotoQuery(detailsData.id);
+  const photoData = data ? data : ({} as DataItemExtended);
 
   const closeDetails = () => {
-    navigate("/rsschool-react2023q4-course/");
+    dispatch(saveOpenStatus(false));
+    dispatch(saveId(""));
   };
+
+  if (isError) {
+    return <p>Sorry, there is an error...</p>;
+  }
 
   return (
     <div className="colored">
       {isLoading ? (
         <p>Loading...</p>
-      ) : (
+      ) : photoData.id ? (
         <div className="details">
           <div className="photo-box">
             <img
               className="img"
-              src={resultsData.urls.regular}
-              alt={resultsData.alt_description}
+              src={photoData.urls.regular}
+              alt={photoData.alt_description}
             ></img>
           </div>
           <div className="image-data">
             <p className="text" data-testid="author">
-              Author: {resultsData.user.name}
+              Author: {photoData.user.name}
             </p>
-            {resultsData.description ? null : (
-              <p className="text">{resultsData.description}</p>
+            {photoData.description ? null : (
+              <p className="text">{photoData.description}</p>
             )}
-            <p className="text">Camera: {resultsData.exif.name}</p>
+            <p className="text">Camera: {photoData.exif.name}</p>
           </div>
           <button className="close-button" onClick={closeDetails}>
             CLOSE PANEL
           </button>
         </div>
+      ) : (
+        <p>Error!</p>
       )}
     </div>
   );

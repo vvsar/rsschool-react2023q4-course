@@ -1,23 +1,22 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../redux/store";
-// import { useSearchParams } from "react-router-dom";
 import type { DataItem } from "../../types/types";
 import {
   useGetRandomPageQuery,
   useGetResultsPageQuery,
 } from "../../redux/services/photosApi";
+import { saveOpenStatus, saveId } from "../../redux/detailsSlice";
 import Pagination from "../pagination/PaginationR";
 import Card from "../card/Card";
 import { useNavigate } from "react-router-dom";
 import "./Results.css";
 
 export default function Results() {
-  // const [, setSearchParams] = useSearchParams();
-  const [cardToOpenId, setCardToOpenId] = useState("");
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const searchData = useSelector((state: AppState) => state.searchData);
+  const detailsData = useSelector((state: AppState) => state.detailsData);
   const [currentPage, setCurrentPage] = useState(searchData.currentPage);
 
   const fetchResults = () => {
@@ -51,32 +50,38 @@ export default function Results() {
   const totalNumber = Math.ceil(total / +searchData.perPage);
 
   const onCardClick = (id: string) => {
-    if (cardToOpenId) return;
-    setCardToOpenId(id);
-    let url: string;
-    if (!searchData.keyWord) {
-      url = `details/${id}/?page=random&per_page=${searchData.perPage}`;
-    } else {
-      url = `details/${id}/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
-    }
-    navigate(url);
+    if (detailsData.isOpen) return;
+    dispatch(saveOpenStatus(true));
+    dispatch(saveId(id));
   };
 
   const closeDetails = () => {
-    setCardToOpenId("");
-    let urlAddition: string;
-    if (!searchData.keyWord) {
-      urlAddition = `?page=random&per_page=${searchData.perPage}`;
-    } else {
-      urlAddition = `?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
-    }
-    navigate(`/rsschool-react2023q4-course/${urlAddition}`);
+    dispatch(saveOpenStatus(false));
+    dispatch(saveId(""));
   };
 
   const onCardsContainerClick = () => {
-    if (!cardToOpenId) return;
+    if (!detailsData.isOpen) return;
     closeDetails();
   };
+
+  useEffect(() => {
+    let url: string;
+    if (detailsData.id) {
+      if (!searchData.keyWord) {
+        url = `details/${detailsData.id}/?page=random&per_page=${searchData.perPage}`;
+      } else {
+        url = `details/${detailsData.id}/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
+      }
+    } else {
+      if (!searchData.keyWord) {
+        url = `/rsschool-react2023q4-course/?page=random&per_page=${searchData.perPage}`;
+      } else {
+        url = `/rsschool-react2023q4-course/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
+      }
+    }
+    navigate(url);
+  }, [detailsData.id]);
 
   if (isError) {
     return <p>Sorry, there is an error...</p>;
