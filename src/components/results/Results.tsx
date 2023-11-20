@@ -1,118 +1,108 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { getResults } from "../../api/api";
-// import SearchContext from "../../contexts/SearchContext";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../redux/store";
+import type { DataItem } from "../../types/types";
+import {
+  useGetRandomPageQuery,
+  useGetResultsPageQuery,
+} from "../../redux/services/photosApi";
+import { saveOpenStatus, saveId } from "../../redux/detailsSlice";
 import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
 import { useNavigate } from "react-router-dom";
 import "./Results.css";
 
-type ResultsPageProps = {
-  word: string;
-  perPage: string;
-};
-
-type DataItem = {
-  id: string;
-  urls: { small: string };
-  user: { name: string };
-};
-
-type ResponseData = {
-  total: number;
-  total_pages: number;
-  results: DataItem[];
-};
-
-export default function Results({ word, perPage }: ResultsPageProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [resultsData, setResultsData] = useState([] as DataItem[]);
-  const [pageIsRandom, setPageIsRandom] = useState(false);
-  const [totalNumber, setTotalNumber] = useState(0);
-  const [currentPage, setCurrentPage] = useState("1");
-  const [, setSearchParams] = useSearchParams();
-  const [cardToOpenId, setCardToOpenId] = useState("");
+export default function Results() {
   const navigate = useNavigate();
-
-  const fetchRandomCards = async () => {
-    const response = await getResults<DataItem[]>(word, perPage, currentPage);
-    setResultsData(response);
-  };
-
-  const fetchCards = async () => {
-    const response = await getResults<ResponseData>(word, perPage, currentPage);
-    setResultsData(response.results);
-    // Hardcoded limitation of the total number of photos
-    const total = response.total < 120 ? response.total : 120;
-    setTotalNumber(Math.ceil(total / +perPage));
-  };
+  const dispatch = useDispatch();
+  const searchData = useSelector((state: AppState) => state.searchData);
+  const detailsData = useSelector((state: AppState) => state.detailsData);
+  const [currentPage, setCurrentPage] = useState(searchData.currentPage);
 
   const fetchResults = () => {
-    if (word === "") {
-      setPageIsRandom(true);
-      setSearchParams({ page: "random", per_page: perPage });
-      return fetchRandomCards();
+    if (!searchData.keyWord) {
+      return useGetRandomPageQuery(searchData.perPage);
     } else {
-      setSearchParams({ search: word, page: currentPage, per_page: perPage });
-      setPageIsRandom(false);
-      return fetchCards();
+      return useGetResultsPageQuery({
+        keyWord: searchData.keyWord,
+        perPage: searchData.perPage,
+        currentPage: currentPage,
+      });
     }
   };
 
-  useEffect(() => {
-    setCurrentPage("1");
-  }, [word, perPage]);
+  const { data, isError, isLoading } = fetchResults();
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetchResults().then(() => setIsLoading(false));
-  }, [word, perPage, currentPage]);
+  const transformedData = data
+    ? Array.isArray(data)
+      ? data
+      : data.results
+    : ([] as DataItem[]);
+
+  const total = data
+    ? !Array.isArray(data)
+      ? data.total < 120
+        ? data.total
+        : 120
+      : 0
+    : 0;
+
+  const totalNumber = Math.ceil(total / +searchData.perPage);
 
   const onCardClick = (id: string) => {
-    if (cardToOpenId) return;
-    setCardToOpenId(id);
-    let url: string;
-    if (!word) {
-      url = `details/${id}/?page=random&per_page=${perPage}`;
-    } else {
-      url = `details/${id}/?search=${word}&page=${currentPage}&per_page=${perPage}`;
-    }
-    navigate(url);
+    if (detailsData.isOpen) return;
+    dispatch(saveOpenStatus(true));
+    dispatch(saveId(id));
   };
 
   const closeDetails = () => {
-    setCardToOpenId("");
-    let urlAddition: string;
-    if (!word) {
-      urlAddition = `?page=random&per_page=${perPage}`;
-    } else {
-      urlAddition = `?search=${word}&page=${currentPage}&per_page=${perPage}`;
-    }
-    navigate(`/rsschool-react2023q4-course/${urlAddition}`);
+    dispatch(saveOpenStatus(false));
+    dispatch(saveId(""));
   };
 
   const onCardsContainerClick = () => {
-    if (!cardToOpenId) return;
+    if (!detailsData.isOpen) return;
     closeDetails();
   };
+
+  useEffect(() => {
+    let url: string;
+    if (detailsData.id) {
+      if (!searchData.keyWord) {
+        url = `details/${detailsData.id}/?page=random&per_page=${searchData.perPage}`;
+      } else {
+        url = `details/${detailsData.id}/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
+      }
+    } else {
+      if (!searchData.keyWord) {
+        url = `/rsschool-react2023q4-course/?page=random&per_page=${searchData.perPage}`;
+      } else {
+        url = `/rsschool-react2023q4-course/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
+      }
+    }
+    navigate(url);
+  }, [detailsData.id]);
+
+  if (isError) {
+    return <p>Sorry, there is an error...</p>;
+  }
 
   return (
     <div className="results">
       {isLoading ? (
         <p>Loading...</p>
-      ) : pageIsRandom ? (
+      ) : !searchData.keyWord ? (
         <p className="random-photos">RANDOM PHOTOS</p>
       ) : (
         <Pagination
-          pageNumber={currentPage}
           totalPages={totalNumber}
           changeCurrentPage={setCurrentPage}
         />
       )}
       <div className="results-field">
-        {resultsData.length > 0 ? (
+        {transformedData.length > 0 ? (
           <div className="cards-container" onClick={onCardsContainerClick}>
-            {resultsData.map((item) => (
+            {transformedData.map((item) => (
               <div
                 className="card"
                 key={item.id}

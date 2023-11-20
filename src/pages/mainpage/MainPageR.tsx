@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../../redux/store";
-import Header from "../../components/header/HeaderR";
-import Results from "../../components/results/ResultsR";
+import Header from "../../components/header/Header";
+import Results from "../../components/results/Results";
 import "./MainPage.css";
 
 export default function MainPage() {

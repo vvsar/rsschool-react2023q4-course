@@ -1,13 +1,38 @@
-import React, { FormEvent, ChangeEvent, useState, useContext } from "react";
-import { useSearchParams } from "react-router-dom";
-import SearchContext from "../../contexts/SearchContext";
+import React, { FormEvent, ChangeEvent, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../redux/store";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import {
+  saveSearchValue,
+  savePerPageValue,
+  saveCurrentPageValue,
+} from "../../redux/searchDataSlice";
 import "./Header.css";
 
 export default function Header() {
+  const searchData = useSelector((state: AppState) => state.searchData);
+  const [keyWord, setKeyWord] = useState(searchData.keyWord);
+  const [perPage, setPerPage] = useState(searchData.perPage);
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchContext = useContext(SearchContext);
-  const [keyWord, setKeyWord] = useState(localStorage.getItem("keyWord") || "");
-  const [perPage, setPerPage] = useState(searchContext.perPageValue);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const placeHolder = "No pagination for random page. Please make a search";
+
+  useEffect(() => {
+    let urlAddition: string;
+    if (keyWord) {
+      setSearchParams({
+        search: searchData.keyWord,
+        page: searchData.currentPage,
+        per_page: searchData.perPage,
+      });
+      urlAddition = `?search=${searchData.keyWord}&page=${searchData.currentPage}&per_page=${searchData.perPage}`;
+    } else {
+      setSearchParams({ page: "random", per_page: searchData.perPage });
+      urlAddition = `?page=random&per_page=${searchData.perPage}`;
+    }
+    navigate(`/rsschool-react2023q4-course/${urlAddition}`);
+  }, []);
 
   const updateKeyWord = (e: FormEvent<HTMLInputElement>) => {
     setKeyWord((e.target as HTMLInputElement).value);
@@ -16,10 +41,13 @@ export default function Header() {
   const updatePerPageValue = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const value = event.target.value;
+    searchParams.set("per_page", value);
+    if (keyWord) searchParams.set("page", "1");
     localStorage.setItem("perPage", value);
     setPerPage(value);
-    searchParams.set("per_page", value);
-    searchContext.setPerPageValue(value);
+    dispatch(savePerPageValue(value));
+    localStorage.setItem("currentPage", "1");
+    dispatch(saveCurrentPageValue("1"));
   };
 
   const onSubmit = (event: React.FormEvent) => {
@@ -31,11 +59,9 @@ export default function Header() {
     } else {
       setSearchParams({ search: word, page: "1", per_page: perPage });
     }
-    searchParams.set("search", keyWord.trim());
-    searchContext.setSearchInputValue(word);
+    localStorage.setItem("currentPage", "1");
+    dispatch(saveSearchValue(word));
   };
-
-  const placeHolder = "No pagination for random page. Please make a search";
 
   return (
     <header className="header">
@@ -60,7 +86,7 @@ export default function Header() {
         </label>
         <select
           id="number-select"
-          value={perPage}
+          value={searchData.perPage}
           onChange={updatePerPageValue}
         >
           <option value={"4"} key={4}>

@@ -1,22 +1,13 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../redux/store";
+import { saveCurrentPageValue } from "../../redux/searchDataSlice";
+import type {
+  PaginationProps,
+  BackButtonProps,
+  ForwardButtonProps,
+} from "../../types/types";
 import "./Pagination.css";
-
-type PaginationProps = {
-  pageNumber: string;
-  totalPages: number;
-  changeCurrentPage: (value: string) => void;
-};
-
-type BackButtonProps = {
-  pageNumber: string;
-  onClick: () => void;
-};
-
-type ForwardButtonProps = {
-  pageNumber: string;
-  totalPages: number;
-  onClick: () => void;
-};
 
 function FirstPageButton({ pageNumber, onClick }: BackButtonProps) {
   const [isActive, setIsActive] = useState(false);
@@ -91,11 +82,13 @@ function LastPageButton({
 }
 
 export default function Pagination({
-  pageNumber,
   totalPages,
   changeCurrentPage,
 }: PaginationProps) {
+  const searchData = useSelector((state: AppState) => state.searchData);
+  const pageNumber = searchData.currentPage;
   const [currentPage, setCurrentPage] = useState(pageNumber);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentPage(pageNumber);
@@ -103,6 +96,8 @@ export default function Pagination({
 
   const goToFirstPage = () => {
     if (currentPage === "1") return;
+    dispatch(saveCurrentPageValue("1"));
+    localStorage.setItem("currentPage", "1");
     setCurrentPage("1");
     changeCurrentPage("1");
   };
@@ -110,6 +105,8 @@ export default function Pagination({
   const goToPrevPage = () => {
     if (currentPage === "1") return;
     const page = (+currentPage - 1).toString();
+    dispatch(saveCurrentPageValue(page));
+    localStorage.setItem("currentPage", page);
     setCurrentPage(page);
     changeCurrentPage(page);
   };
@@ -117,14 +114,19 @@ export default function Pagination({
   const goToNextPage = () => {
     if (currentPage === totalPages.toString()) return;
     const page = (+currentPage + 1).toString();
+    dispatch(saveCurrentPageValue(page));
+    localStorage.setItem("currentPage", page);
     setCurrentPage(page);
     changeCurrentPage(page);
   };
 
   const goToLastPage = () => {
     if (currentPage === totalPages.toString()) return;
-    setCurrentPage(totalPages.toString());
-    changeCurrentPage(totalPages.toString());
+    const page = totalPages.toString();
+    dispatch(saveCurrentPageValue(page));
+    localStorage.setItem("currentPage", page);
+    setCurrentPage(page);
+    changeCurrentPage(page);
   };
 
   return totalPages === 0 ? null : (

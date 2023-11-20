@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/75</span>
+                <span class='fraction'>0/55</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/75</span>
+                <span class='fraction'>0/55</span>
             </div>
         
             
@@ -118,27 +118,7 @@
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -193,97 +173,57 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useEffect, useState } from "react";</span></span></span>
-<span class="cstat-no" title="statement not covered" >// import { useParams } from "react-router-dom";</span>
-<span class="cstat-no" title="statement not covered" >import { useNavigate, useParams } from "react-router-dom";</span>
-<span class="cstat-no" title="statement not covered" >import { getPhoto } from "../../api/api";</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useSelector, useDispatch } from "react-redux";</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { AppState } from "../../redux/store";</span>
+<span class="cstat-no" title="statement not covered" >import { useGetPhotoQuery } from "../../redux/services/photosApi";</span>
+<span class="cstat-no" title="statement not covered" >import { saveOpenStatus, saveId } from "../../redux/detailsSlice";</span>
+<span class="cstat-no" title="statement not covered" >import type { DataItemExtended } from "../../types/types";</span>
 <span class="cstat-no" title="statement not covered" >import "./Details.css";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type DataItem = {</span>
-<span class="cstat-no" title="statement not covered" >  id: string;</span>
-<span class="cstat-no" title="statement not covered" >  description: string | null;</span>
-<span class="cstat-no" title="statement not covered" >  alt_description: string;</span>
-<span class="cstat-no" title="statement not covered" >  urls: { regular: string };</span>
-<span class="cstat-no" title="statement not covered" >  user: { name: string };</span>
-<span class="cstat-no" title="statement not covered" >  exif: { name: string | null };</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export default function Details() {</span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
-<span class="cstat-no" title="statement not covered" >  const [resultsData, setResultsData] = useState({</span>
-<span class="cstat-no" title="statement not covered" >    id: "",</span>
-<span class="cstat-no" title="statement not covered" >    description: "",</span>
-<span class="cstat-no" title="statement not covered" >    alt_description: "",</span>
-<span class="cstat-no" title="statement not covered" >    urls: { regular: "" },</span>
-<span class="cstat-no" title="statement not covered" >    user: { name: "" },</span>
-<span class="cstat-no" title="statement not covered" >    exif: { name: "" },</span>
-<span class="cstat-no" title="statement not covered" >  } as DataItem);</span>
+<span class="cstat-no" title="statement not covered" >  const detailsData = useSelector((state: AppState) =&gt; state.detailsData);</span>
+<span class="cstat-no" title="statement not covered" >  const dispatch = useDispatch();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { id } = useParams();</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const fetchPhoto = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const response = await getPhoto&lt;DataItem&gt;(id as string);</span>
-<span class="cstat-no" title="statement not covered" >    setResultsData(response);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    fetchPhoto().then(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  }, [id]);</span>
+<span class="cstat-no" title="statement not covered" >  const { data, isError, isLoading } = useGetPhotoQuery(detailsData.id);</span>
+<span class="cstat-no" title="statement not covered" >  const photoData = data ? data : ({} as DataItemExtended);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const closeDetails = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    navigate("/rsschool-react2023q4-course/");</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveOpenStatus(false));</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveId(""));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  if (isError) {</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;p&gt;Sorry, there is an error...&lt;/p&gt;;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="colored"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isLoading ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;p&gt;Loading...&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      ) : (</span>
+<span class="cstat-no" title="statement not covered" >      ) : photoData.id ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="details"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="photo-box"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;img</span>
 <span class="cstat-no" title="statement not covered" >              className="img"</span>
-<span class="cstat-no" title="statement not covered" >              src={resultsData.urls.regular}</span>
-<span class="cstat-no" title="statement not covered" >              alt={resultsData.alt_description}</span>
+<span class="cstat-no" title="statement not covered" >              src={photoData.urls.regular}</span>
+<span class="cstat-no" title="statement not covered" >              alt={photoData.alt_description}</span>
 <span class="cstat-no" title="statement not covered" >            &gt;&lt;/img&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="image-data"&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;p className="text" data-testid="author"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              Author: {resultsData.user.name}</span>
+<span class="cstat-no" title="statement not covered" >              Author: {photoData.user.name}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {resultsData.description ? null : (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;p className="text"&gt;{resultsData.description}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >            {photoData.description ? null : (</span>
+<span class="cstat-no" title="statement not covered" >              &lt;p className="text"&gt;{photoData.description}&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >            )}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;p className="text"&gt;Camera: {resultsData.exif.name}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;p className="text"&gt;Camera: {photoData.exif.name}&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >          &lt;button className="close-button" onClick={closeDetails}&gt;</span>
 <span class="cstat-no" title="statement not covered" >            CLOSE PANEL</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/button&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ) : (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;p&gt;Error!&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
@@ -295,7 +235,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-20T03:15:26.844Z
+                at 2023-11-20T15:46:13.857Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
