@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/147</span>
+                <span class='fraction'>0/149</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/147</span>
+                <span class='fraction'>0/149</span>
             </div>
         
             
@@ -210,7 +210,11 @@
 <a name='L145'></a><a href='#L145'>145</a>
 <a name='L146'></a><a href='#L146'>146</a>
 <a name='L147'></a><a href='#L147'>147</a>
-<a name='L148'></a><a href='#L148'>148</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -358,24 +362,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useEffect, useState } from "react";</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { useSelector, useDispatch } from "react-redux";</span>
+<span class="cstat-no" title="statement not covered" >import { AppState } from "../../redux/store";</span>
+<span class="cstat-no" title="statement not covered" >import { saveCurrentPageValue } from "../../redux/searchDataSlice";</span>
+<span class="cstat-no" title="statement not covered" >import type {</span>
+<span class="cstat-no" title="statement not covered" >  PaginationProps,</span>
+<span class="cstat-no" title="statement not covered" >  BackButtonProps,</span>
+<span class="cstat-no" title="statement not covered" >  ForwardButtonProps,</span>
+<span class="cstat-no" title="statement not covered" >} from "../../types/types";</span>
 <span class="cstat-no" title="statement not covered" >import "./Pagination.css";</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type PaginationProps = {</span>
-<span class="cstat-no" title="statement not covered" >  pageNumber: string;</span>
-<span class="cstat-no" title="statement not covered" >  totalPages: number;</span>
-<span class="cstat-no" title="statement not covered" >  changeCurrentPage: (value: string) =&gt; void;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type BackButtonProps = {</span>
-<span class="cstat-no" title="statement not covered" >  pageNumber: string;</span>
-<span class="cstat-no" title="statement not covered" >  onClick: () =&gt; void;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type ForwardButtonProps = {</span>
-<span class="cstat-no" title="statement not covered" >  pageNumber: string;</span>
-<span class="cstat-no" title="statement not covered" >  totalPages: number;</span>
-<span class="cstat-no" title="statement not covered" >  onClick: () =&gt; void;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >function FirstPageButton({ pageNumber, onClick }: BackButtonProps) {</span>
 <span class="cstat-no" title="statement not covered" >  const [isActive, setIsActive] = useState(false);</span>
@@ -450,11 +445,13 @@
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export default function Pagination({</span>
-<span class="cstat-no" title="statement not covered" >  pageNumber,</span>
 <span class="cstat-no" title="statement not covered" >  totalPages,</span>
 <span class="cstat-no" title="statement not covered" >  changeCurrentPage,</span>
 <span class="cstat-no" title="statement not covered" >}: PaginationProps) {</span>
+<span class="cstat-no" title="statement not covered" >  const searchData = useSelector((state: AppState) =&gt; state.searchData);</span>
+<span class="cstat-no" title="statement not covered" >  const pageNumber = searchData.currentPage;</span>
 <span class="cstat-no" title="statement not covered" >  const [currentPage, setCurrentPage] = useState(pageNumber);</span>
+<span class="cstat-no" title="statement not covered" >  const dispatch = useDispatch();</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setCurrentPage(pageNumber);</span>
@@ -462,6 +459,8 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const goToFirstPage = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (currentPage === "1") return;</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveCurrentPageValue("1"));</span>
+<span class="cstat-no" title="statement not covered" >    localStorage.setItem("currentPage", "1");</span>
 <span class="cstat-no" title="statement not covered" >    setCurrentPage("1");</span>
 <span class="cstat-no" title="statement not covered" >    changeCurrentPage("1");</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -469,6 +468,8 @@
 <span class="cstat-no" title="statement not covered" >  const goToPrevPage = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (currentPage === "1") return;</span>
 <span class="cstat-no" title="statement not covered" >    const page = (+currentPage - 1).toString();</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveCurrentPageValue(page));</span>
+<span class="cstat-no" title="statement not covered" >    localStorage.setItem("currentPage", page);</span>
 <span class="cstat-no" title="statement not covered" >    setCurrentPage(page);</span>
 <span class="cstat-no" title="statement not covered" >    changeCurrentPage(page);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
@@ -476,14 +477,19 @@
 <span class="cstat-no" title="statement not covered" >  const goToNextPage = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (currentPage === totalPages.toString()) return;</span>
 <span class="cstat-no" title="statement not covered" >    const page = (+currentPage + 1).toString();</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveCurrentPageValue(page));</span>
+<span class="cstat-no" title="statement not covered" >    localStorage.setItem("currentPage", page);</span>
 <span class="cstat-no" title="statement not covered" >    setCurrentPage(page);</span>
 <span class="cstat-no" title="statement not covered" >    changeCurrentPage(page);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const goToLastPage = () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (currentPage === totalPages.toString()) return;</span>
-<span class="cstat-no" title="statement not covered" >    setCurrentPage(totalPages.toString());</span>
-<span class="cstat-no" title="statement not covered" >    changeCurrentPage(totalPages.toString());</span>
+<span class="cstat-no" title="statement not covered" >    const page = totalPages.toString();</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveCurrentPageValue(page));</span>
+<span class="cstat-no" title="statement not covered" >    localStorage.setItem("currentPage", page);</span>
+<span class="cstat-no" title="statement not covered" >    setCurrentPage(page);</span>
+<span class="cstat-no" title="statement not covered" >    changeCurrentPage(page);</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return totalPages === 0 ? null : (</span>
@@ -511,7 +517,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-20T15:46:13.857Z
+                at 2023-11-20T16:01:50.071Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

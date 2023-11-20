@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/131</span>
+                <span class='fraction'>0/121</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/131</span>
+                <span class='fraction'>0/121</span>
             </div>
         
             
@@ -184,17 +184,7 @@
 <a name='L119'></a><a href='#L119'>119</a>
 <a name='L120'></a><a href='#L120'>120</a>
 <a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a>
-<a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a>
-<a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a>
-<a name='L129'></a><a href='#L129'>129</a>
-<a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L122'></a><a href='#L122'>122</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -315,131 +305,111 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useEffect, useState } from "react";</span></span></span>
-<span class="cstat-no" title="statement not covered" >import { useSearchParams } from "react-router-dom";</span>
-<span class="cstat-no" title="statement not covered" >import { getResults } from "../../api/api";</span>
-<span class="cstat-no" title="statement not covered" >// import SearchContext from "../../contexts/SearchContext";</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useState, useEffect } from "react";</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { useSelector, useDispatch } from "react-redux";</span>
+<span class="cstat-no" title="statement not covered" >import { AppState } from "../../redux/store";</span>
+<span class="cstat-no" title="statement not covered" >import type { DataItem } from "../../types/types";</span>
+<span class="cstat-no" title="statement not covered" >import {</span>
+<span class="cstat-no" title="statement not covered" >  useGetRandomPageQuery,</span>
+<span class="cstat-no" title="statement not covered" >  useGetResultsPageQuery,</span>
+<span class="cstat-no" title="statement not covered" >} from "../../redux/services/photosApi";</span>
+<span class="cstat-no" title="statement not covered" >import { saveOpenStatus, saveId } from "../../redux/detailsSlice";</span>
 <span class="cstat-no" title="statement not covered" >import Pagination from "../pagination/Pagination";</span>
 <span class="cstat-no" title="statement not covered" >import Card from "../card/Card";</span>
 <span class="cstat-no" title="statement not covered" >import { useNavigate } from "react-router-dom";</span>
 <span class="cstat-no" title="statement not covered" >import "./Results.css";</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type ResultsPageProps = {</span>
-<span class="cstat-no" title="statement not covered" >  word: string;</span>
-<span class="cstat-no" title="statement not covered" >  perPage: string;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type DataItem = {</span>
-<span class="cstat-no" title="statement not covered" >  id: string;</span>
-<span class="cstat-no" title="statement not covered" >  urls: { small: string };</span>
-<span class="cstat-no" title="statement not covered" >  user: { name: string };</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >type ResponseData = {</span>
-<span class="cstat-no" title="statement not covered" >  total: number;</span>
-<span class="cstat-no" title="statement not covered" >  total_pages: number;</span>
-<span class="cstat-no" title="statement not covered" >  results: DataItem[];</span>
-<span class="cstat-no" title="statement not covered" >};</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default function Results({ word, perPage }: ResultsPageProps) {</span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [resultsData, setResultsData] = useState([] as DataItem[]);</span>
-<span class="cstat-no" title="statement not covered" >  const [pageIsRandom, setPageIsRandom] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [totalNumber, setTotalNumber] = useState(0);</span>
-<span class="cstat-no" title="statement not covered" >  const [currentPage, setCurrentPage] = useState("1");</span>
-<span class="cstat-no" title="statement not covered" >  const [, setSearchParams] = useSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  const [cardToOpenId, setCardToOpenId] = useState("");</span>
+<span class="cstat-no" title="statement not covered" >export default function Results() {</span>
 <span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const fetchRandomCards = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const response = await getResults&lt;DataItem[]&gt;(word, perPage, currentPage);</span>
-<span class="cstat-no" title="statement not covered" >    setResultsData(response);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const fetchCards = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const response = await getResults&lt;ResponseData&gt;(word, perPage, currentPage);</span>
-<span class="cstat-no" title="statement not covered" >    setResultsData(response.results);</span>
-<span class="cstat-no" title="statement not covered" >    // Hardcoded limitation of the total number of photos</span>
-<span class="cstat-no" title="statement not covered" >    const total = response.total &lt; 120 ? response.total : 120;</span>
-<span class="cstat-no" title="statement not covered" >    setTotalNumber(Math.ceil(total / +perPage));</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  const dispatch = useDispatch();</span>
+<span class="cstat-no" title="statement not covered" >  const searchData = useSelector((state: AppState) =&gt; state.searchData);</span>
+<span class="cstat-no" title="statement not covered" >  const detailsData = useSelector((state: AppState) =&gt; state.detailsData);</span>
+<span class="cstat-no" title="statement not covered" >  const [currentPage, setCurrentPage] = useState(searchData.currentPage);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const fetchResults = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (word === "") {</span>
-<span class="cstat-no" title="statement not covered" >      setPageIsRandom(true);</span>
-<span class="cstat-no" title="statement not covered" >      setSearchParams({ page: "random", per_page: perPage });</span>
-<span class="cstat-no" title="statement not covered" >      return fetchRandomCards();</span>
+<span class="cstat-no" title="statement not covered" >    if (!searchData.keyWord) {</span>
+<span class="cstat-no" title="statement not covered" >      return useGetRandomPageQuery(searchData.perPage);</span>
 <span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      setSearchParams({ search: word, page: currentPage, per_page: perPage });</span>
-<span class="cstat-no" title="statement not covered" >      setPageIsRandom(false);</span>
-<span class="cstat-no" title="statement not covered" >      return fetchCards();</span>
+<span class="cstat-no" title="statement not covered" >      return useGetResultsPageQuery({</span>
+<span class="cstat-no" title="statement not covered" >        keyWord: searchData.keyWord,</span>
+<span class="cstat-no" title="statement not covered" >        perPage: searchData.perPage,</span>
+<span class="cstat-no" title="statement not covered" >        currentPage: currentPage,</span>
+<span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setCurrentPage("1");</span>
-<span class="cstat-no" title="statement not covered" >  }, [word, perPage]);</span>
+<span class="cstat-no" title="statement not covered" >  const { data, isError, isLoading } = fetchResults();</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    fetchResults().then(() =&gt; setIsLoading(false));</span>
-<span class="cstat-no" title="statement not covered" >  }, [word, perPage, currentPage]);</span>
+<span class="cstat-no" title="statement not covered" >  const transformedData = data</span>
+<span class="cstat-no" title="statement not covered" >    ? Array.isArray(data)</span>
+<span class="cstat-no" title="statement not covered" >      ? data</span>
+<span class="cstat-no" title="statement not covered" >      : data.results</span>
+<span class="cstat-no" title="statement not covered" >    : ([] as DataItem[]);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const total = data</span>
+<span class="cstat-no" title="statement not covered" >    ? !Array.isArray(data)</span>
+<span class="cstat-no" title="statement not covered" >      ? data.total &lt; 120</span>
+<span class="cstat-no" title="statement not covered" >        ? data.total</span>
+<span class="cstat-no" title="statement not covered" >        : 120</span>
+<span class="cstat-no" title="statement not covered" >      : 0</span>
+<span class="cstat-no" title="statement not covered" >    : 0;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const totalNumber = Math.ceil(total / +searchData.perPage);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const onCardClick = (id: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (cardToOpenId) return;</span>
-<span class="cstat-no" title="statement not covered" >    setCardToOpenId(id);</span>
-<span class="cstat-no" title="statement not covered" >    let url: string;</span>
-<span class="cstat-no" title="statement not covered" >    if (!word) {</span>
-<span class="cstat-no" title="statement not covered" >      url = `details/${id}/?page=random&amp;per_page=${perPage}`;</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      url = `details/${id}/?search=${word}&amp;page=${currentPage}&amp;per_page=${perPage}`;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    navigate(url);</span>
+<span class="cstat-no" title="statement not covered" >    if (detailsData.isOpen) return;</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveOpenStatus(true));</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveId(id));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const closeDetails = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setCardToOpenId("");</span>
-<span class="cstat-no" title="statement not covered" >    let urlAddition: string;</span>
-<span class="cstat-no" title="statement not covered" >    if (!word) {</span>
-<span class="cstat-no" title="statement not covered" >      urlAddition = `?page=random&amp;per_page=${perPage}`;</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      urlAddition = `?search=${word}&amp;page=${currentPage}&amp;per_page=${perPage}`;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    navigate(`/rsschool-react2023q4-course/${urlAddition}`);</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveOpenStatus(false));</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(saveId(""));</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const onCardsContainerClick = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!cardToOpenId) return;</span>
+<span class="cstat-no" title="statement not covered" >    if (!detailsData.isOpen) return;</span>
 <span class="cstat-no" title="statement not covered" >    closeDetails();</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    let url: string;</span>
+<span class="cstat-no" title="statement not covered" >    if (detailsData.id) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!searchData.keyWord) {</span>
+<span class="cstat-no" title="statement not covered" >        url = `details/${detailsData.id}/?page=random&amp;per_page=${searchData.perPage}`;</span>
+<span class="cstat-no" title="statement not covered" >      } else {</span>
+<span class="cstat-no" title="statement not covered" >        url = `details/${detailsData.id}/?search=${searchData.keyWord}&amp;page=${currentPage}&amp;per_page=${searchData.perPage}`;</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >    } else {</span>
+<span class="cstat-no" title="statement not covered" >      if (!searchData.keyWord) {</span>
+<span class="cstat-no" title="statement not covered" >        url = `/rsschool-react2023q4-course/?page=random&amp;per_page=${searchData.perPage}`;</span>
+<span class="cstat-no" title="statement not covered" >      } else {</span>
+<span class="cstat-no" title="statement not covered" >        url = `/rsschool-react2023q4-course/?search=${searchData.keyWord}&amp;page=${currentPage}&amp;per_page=${searchData.perPage}`;</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    navigate(url);</span>
+<span class="cstat-no" title="statement not covered" >  }, [detailsData.id]);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  if (isError) {</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;p&gt;Sorry, there is an error...&lt;/p&gt;;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div className="results"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      {isLoading ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;p&gt;Loading...&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      ) : pageIsRandom ? (</span>
+<span class="cstat-no" title="statement not covered" >      ) : !searchData.keyWord ? (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;p className="random-photos"&gt;RANDOM PHOTOS&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >      ) : (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Pagination</span>
-<span class="cstat-no" title="statement not covered" >          pageNumber={currentPage}</span>
 <span class="cstat-no" title="statement not covered" >          totalPages={totalNumber}</span>
 <span class="cstat-no" title="statement not covered" >          changeCurrentPage={setCurrentPage}</span>
 <span class="cstat-no" title="statement not covered" >        /&gt;</span>
 <span class="cstat-no" title="statement not covered" >      )}</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div className="results-field"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {resultsData.length &gt; 0 ? (</span>
+<span class="cstat-no" title="statement not covered" >        {transformedData.length &gt; 0 ? (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className="cards-container" onClick={onCardsContainerClick}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {resultsData.map((item) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >            {transformedData.map((item) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div</span>
 <span class="cstat-no" title="statement not covered" >                className="card"</span>
 <span class="cstat-no" title="statement not covered" >                key={item.id}</span>
@@ -463,7 +433,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-20T15:46:13.857Z
+                at 2023-11-20T16:01:50.071Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
