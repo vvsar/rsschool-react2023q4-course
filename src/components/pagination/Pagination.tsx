@@ -131,9 +131,15 @@ export default function Pagination({
 
   return totalPages === 0 ? null : (
     <div className="pagination">
-      <FirstPageButton pageNumber={pageNumber} onClick={goToFirstPage} />
-      <PrevPageButton pageNumber={pageNumber} onClick={goToPrevPage} />
-      <p className="page-info">{`PAGE ${pageNumber} OF ${totalPages}`}</p>
+      <FirstPageButton
+        pageNumber={searchData.currentPage}
+        onClick={goToFirstPage}
+      />
+      <PrevPageButton
+        pageNumber={searchData.currentPage}
+        onClick={goToPrevPage}
+      />
+      <p className="page-info">{`PAGE ${searchData.currentPage} OF ${totalPages}`}</p>
       <NextPageButton
         pageNumber={pageNumber}
         totalPages={totalPages}

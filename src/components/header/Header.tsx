@@ -61,6 +61,7 @@ export default function Header() {
     }
     localStorage.setItem("currentPage", "1");
     dispatch(saveSearchValue(word));
+    dispatch(saveCurrentPageValue("1"));
   };
 
   return (
@@ -86,6 +87,7 @@ export default function Header() {
         </label>
         <select
           id="number-select"
+          data-testid="select"
           value={searchData.perPage}
           onChange={updatePerPageValue}
         >
