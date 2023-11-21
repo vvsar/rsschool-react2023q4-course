@@ -30,6 +30,7 @@ export default function Details() {
           <div className="photo-box">
             <img
               className="img"
+              data-testid="img"
               src={photoData.urls.regular}
               alt={photoData.alt_description}
             ></img>
@@ -39,9 +40,13 @@ export default function Details() {
               Author: {photoData.user.name}
             </p>
             {photoData.description ? null : (
-              <p className="text">{photoData.description}</p>
+              <p className="text" data-testid="description">
+                {photoData.description}
+              </p>
             )}
-            <p className="text">Camera: {photoData.exif.name}</p>
+            <p className="text" data-testid="camera">
+              Camera: {photoData.exif.name}
+            </p>
           </div>
           <button className="close-button" onClick={closeDetails}>
             CLOSE PANEL

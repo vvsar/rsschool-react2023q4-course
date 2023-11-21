@@ -98,7 +98,7 @@ export default function Pagination({
     if (currentPage === "1") return;
     dispatch(saveCurrentPageValue("1"));
     localStorage.setItem("currentPage", "1");
-    setCurrentPage("1");
+    // setCurrentPage("1");
     changeCurrentPage("1");
   };
 
@@ -107,7 +107,7 @@ export default function Pagination({
     const page = (+currentPage - 1).toString();
     dispatch(saveCurrentPageValue(page));
     localStorage.setItem("currentPage", page);
-    setCurrentPage(page);
+    // setCurrentPage(page);
     changeCurrentPage(page);
   };
 
@@ -116,7 +116,7 @@ export default function Pagination({
     const page = (+currentPage + 1).toString();
     dispatch(saveCurrentPageValue(page));
     localStorage.setItem("currentPage", page);
-    setCurrentPage(page);
+    // setCurrentPage(page);
     changeCurrentPage(page);
   };
 
@@ -125,7 +125,7 @@ export default function Pagination({
     const page = totalPages.toString();
     dispatch(saveCurrentPageValue(page));
     localStorage.setItem("currentPage", page);
-    setCurrentPage(page);
+    // setCurrentPage(page);
     changeCurrentPage(page);
   };
 

@@ -66,6 +66,10 @@ export default function Results() {
   };
 
   useEffect(() => {
+    setCurrentPage(searchData.currentPage);
+  }, [searchData.currentPage]);
+
+  useEffect(() => {
     let url: string;
     if (detailsData.id) {
       if (!searchData.keyWord) {
