@@ -7,6 +7,7 @@ import {
   useGetResultsPageQuery,
 } from "../../redux/services/photosApi";
 import { saveOpenStatus, saveId } from "../../redux/detailsSlice";
+import { saveResultsLoadingStatus } from "../../redux/loadingsSlice";
 import Pagination from "../pagination/Pagination";
 import Card from "../card/Card";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +33,14 @@ export default function Results() {
   };
 
   const { data, isError, isLoading } = fetchResults();
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(saveResultsLoadingStatus("loading"));
+    } else {
+      dispatch(saveResultsLoadingStatus("idle"));
+    }
+  }, [isLoading]);
 
   const transformedData = data
     ? Array.isArray(data)

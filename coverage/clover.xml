@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1700515879453" clover="3.2.0">
-  <project timestamp="1700515879453" name="All files">
-    <metrics statements="745" coveredstatements="242" conditionals="25" coveredconditionals="13" methods="25" coveredmethods="11" elements="795" coveredelements="266" complexity="0" loc="745" ncloc="745" packages="12" files="16" classes="16"/>
+<coverage generated="1700525173937" clover="3.2.0">
+  <project timestamp="1700525173937" name="All files">
+    <metrics statements="749" coveredstatements="242" conditionals="25" coveredconditionals="13" methods="25" coveredmethods="11" elements="799" coveredelements="266" complexity="0" loc="749" ncloc="749" packages="12" files="16" classes="16"/>
     <package name="src">
       <metrics statements="34" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="App.tsx" path="C:\CODE2023\rsschool-react2023q4-course\src\App.tsx">
@@ -459,9 +459,9 @@
       </file>
     </package>
     <package name="src.components.results">
-      <metrics statements="121" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="125" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="Results.tsx" path="C:\CODE2023\rsschool-react2023q4-course\src\components\results\Results.tsx">
-        <metrics statements="121" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="125" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -583,6 +583,10 @@
         <line num="119" count="0" type="stmt"/>
         <line num="120" count="0" type="stmt"/>
         <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.pages.404">

@@ -60,3 +60,10 @@ export type DetailsState = {
   isOpen: boolean;
   id: string;
 };
+
+// Loadings
+
+export type LoadingsState = {
+  resultsLoading: string;
+  detailsLoading: string;
+};

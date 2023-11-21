@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { AppState } from "../../redux/store";
 import { useGetPhotoQuery } from "../../redux/services/photosApi";
 import { saveOpenStatus, saveId } from "../../redux/detailsSlice";
+import { saveDetailsLoadingStatus } from "../../redux/loadingsSlice";
 import type { DataItemExtended } from "../../types/types";
 import "./Details.css";
 
@@ -11,6 +13,14 @@ export default function Details() {
 
   const { data, isError, isLoading } = useGetPhotoQuery(detailsData.id);
   const photoData = data ? data : ({} as DataItemExtended);
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(saveDetailsLoadingStatus("loading"));
+    } else {
+      dispatch(saveDetailsLoadingStatus("idle"));
+    }
+  }, [isLoading]);
 
   const closeDetails = () => {
     dispatch(saveOpenStatus(false));
