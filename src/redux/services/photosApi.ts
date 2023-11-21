@@ -6,8 +6,8 @@ import type {
   ResponseData,
 } from "../../types/types";
 
-const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
-const basicUrl = "https://api.unsplash.com/";
+export const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
+export const basicUrl = "https://api.unsplash.com/";
 
 export const photosApi = createApi({
   reducerPath: "photosApi",
