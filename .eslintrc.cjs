@@ -31,6 +31,7 @@ module.exports = {
   plugins: ["@typescript-eslint", "react", "prettier"],
   rules: {
     "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-var-requires": 0,
   },
   // ignorePatterns: ["**/*.css"],
   settings: {

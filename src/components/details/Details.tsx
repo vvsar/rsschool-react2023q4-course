@@ -32,11 +32,11 @@ export default function Details() {
   }
 
   return (
-    <div className="colored">
+    <div className="details-wrapper">
       {isLoading ? (
-        <p>Loading...</p>
+        <p data-testid="loading">Loading...</p>
       ) : photoData.id ? (
-        <div className="details">
+        <div className="details" data-testid="details">
           <div className="photo-box">
             <img
               className="img"

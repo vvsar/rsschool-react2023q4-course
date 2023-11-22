@@ -101,7 +101,7 @@ export default function Results() {
   }
 
   return (
-    <div className="results">
+    <div className="results" data-testid="results">
       {isLoading ? (
         <p>Loading...</p>
       ) : !searchData.keyWord ? (

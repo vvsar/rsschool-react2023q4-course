@@ -30,7 +30,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <h2>{`Oops, something went wrong: ${this.state.error?.message}`}</h2>
+        <h2 data-testid="errorboundary">{`Oops, something went wrong: ${this.state.error?.message}`}</h2>
       );
     }
 

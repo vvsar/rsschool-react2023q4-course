@@ -9,9 +9,9 @@ export default function MainPage() {
   return (
     <Provider store={store}>
       <>
-        <p style={{ color: "red" }}>
+        {/* <p style={{ color: "red" }}>
           <b>Module04 is not finished. Please check later!</b>
-        </p>
+        </p> */}
         <Header />
         <main className="main">
           <Results />
