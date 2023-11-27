@@ -1,5 +1,4 @@
 import Head from "next/head";
-import RootLayout from "@/layouts/RootLayout";
 import styles from "./404.module.css";
 
 export default function Page404() {
@@ -15,12 +14,9 @@ export default function Page404() {
         <div className={styles.page_title}>
           <span>FIND IMAGES ON</span>
         </div>
-        <h2 className={styles.h2}>PAGE NOT FOUND!</h2>
+        <h2 className={styles.h2}>404</h2>
       </header>
+      <p>PAGE NOT FOUND!</p>
     </>
   );
 }
-
-Page404.getLayout = (page) => {
-  return <RootLayout>{page}</RootLayout>;
-};

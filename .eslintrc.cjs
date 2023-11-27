@@ -10,6 +10,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:react/jsx-runtime",
     "prettier",
     "plugin:prettier/recommended",
@@ -34,6 +35,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-requires": 0,
+    "react-hooks/exhaustive-deps": "off",
   },
   // ignorePatterns: ["**/*.css"],
   settings: {

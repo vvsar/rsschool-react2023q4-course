@@ -1,16 +1,20 @@
-import React, { FormEvent, ChangeEvent, useState } from "react";
+import React, { FormEvent, ChangeEvent, useState, useEffect } from "react";
 import styles from "./Header.module.css";
 import { HeaderProps } from "@/types/types";
+import { useRouter } from "next/router";
 
 export default function Header(props: HeaderProps) {
   const [keyWord, setKeyWord] = useState(props.keyWord);
   const [perPage, setPerPage] = useState(props.perPage);
+  const router = useRouter();
   const placeHolder = "No pagination for random page. Please make a search";
 
-  // useEffect(() => {
-  //   setKeyWord(localStorage.getItem('keyWord') || '');
-  //   setPerPage(localStorage.getItem('perPage') || '4');
-  // }, []);
+  useEffect(() => {
+    setPerPage(props.perPage);
+  }, [props.perPage]);
+  useEffect(() => {
+    setKeyWord(props.keyWord);
+  }, [props.keyWord]);
 
   const updateKeyWord = (e: FormEvent<HTMLInputElement>) => {
     setKeyWord((e.target as HTMLInputElement).value);
@@ -19,16 +23,23 @@ export default function Header(props: HeaderProps) {
   const updatePerPageValue = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const value = event.target.value;
-    props.onPerPageChange(value);
+    if (value === perPage) return;
+    localStorage.setItem("perPage", value);
     setPerPage(value);
     localStorage.setItem("currentPage", "1");
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const word = keyWord.trim();
-    props.onSubmit(word);
+    const value = keyWord.trim();
+    if (value === props.keyWord) return;
+    localStorage.setItem("keyWord", value);
     localStorage.setItem("currentPage", "1");
+    if (!value) {
+      router.push("/random");
+    } else {
+      router.push("/photos");
+    }
   };
 
   return (
