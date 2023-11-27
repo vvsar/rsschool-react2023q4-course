@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "@/components/header/Header";
+import Results from "@/components/results/Results";
+import { GetServerSideProps } from "next";
+import type { DataItem } from "@/types/types";
 import styles from "@/styles/Home.module.css";
 
-export default function RandomPage() {
+function RandomPage({ data }: { data: DataItem[] }) {
   const [perPage, setPerPage] = useState("4");
   const router = useRouter();
 
@@ -15,22 +18,21 @@ export default function RandomPage() {
 
   useEffect(() => {
     router.push(`random/?per_page=${perPage}`, undefined, {
-      shallow: true,
+      shallow: false,
     });
-  }, [perPage, router]);
+  }, [perPage]);
 
   function handleSubmit(value: string) {
     if (value === "") return;
-    localStorage.setItem("keyWord", value);
     router.push("/photos");
     localStorage.setItem("currentPage", "1");
   }
 
   function handlePerPageChange(value: string) {
     if (value === perPage) return;
-    localStorage.setItem("perPage", value);
     setPerPage(value);
     localStorage.setItem("currentPage", "1");
+    // router.reload();
   }
 
   return (
@@ -50,7 +52,28 @@ export default function RandomPage() {
         onSubmit={handleSubmit}
         onPerPageChange={handlePerPageChange}
       />
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        <Results pageType="random" totalNumber={1} data={data} />
+      </main>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  data: DataItem[];
+}> = async (context) => {
+  console.log(context.query);
+  const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
+  const basicUrl = "https://api.unsplash.com/";
+  const { per_page } = context.query;
+  const res = await fetch(
+    `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`,
+  );
+  const data = await res.json();
+  if (!data) {
+    return { notFound: true };
+  }
+  return { props: { data } };
+};
+
+export default RandomPage;

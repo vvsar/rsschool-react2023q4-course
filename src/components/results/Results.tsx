@@ -1,134 +1,82 @@
-// import { useState, useEffect } from "react";
-// import { useSelector, useDispatch } from "react-redux";
-// import { AppState } from "../../redux/store";
-// import type { DataItem } from "../../types/types";
-// import { useGetRandomPageQuery, useGetResultsPageQuery } from "@/api/photosApi";
-// import { saveOpenStatus, saveId } from "../../redux/detailsSlice";
-// import { saveResultsLoadingStatus } from "../../redux/loadingsSlice";
+import { useState, useEffect } from "react";
+import type { DataItem, ResultsPageProps } from "../../types/types";
 // import Pagination from "../pagination/Pagination";
-// import Card from "../card/Card";
-// import { useNavigate } from "react-router-dom";
-// import styles from "./Results.module.css";
+import Card from "../card/Card";
+import styles from "./Results.module.css";
 
-// export default function Results() {
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch();
-//   const searchData = useSelector((state: AppState) => state.searchData);
-//   const detailsData = useSelector((state: AppState) => state.detailsData);
-//   const [currentPage, setCurrentPage] = useState(searchData.currentPage);
+export default function Results(props: ResultsPageProps) {
+  const [cardsData, setCardsData] = useState([] as DataItem[]);
 
-//   const fetchResults = () => {
-//     if (!searchData.keyWord) {
-//       return useGetRandomPageQuery(searchData.perPage);
-//     } else {
-//       return useGetResultsPageQuery({
-//         keyWord: searchData.keyWord,
-//         perPage: searchData.perPage,
-//         currentPage: currentPage,
-//       });
-//     }
-//   };
+  // const transformedData = data
+  //   ? Array.isArray(data)
+  //     ? data
+  //     : data.results
+  //   : ([] as DataItem[]);
 
-//   const { data, isError, isLoading } = fetchResults();
+  // const total = props.data
+  //   ? !Array.isArray(props.data)
+  //     ? props.data.total < 120
+  //       ? data.total
+  //       : 120
+  //     : 0
+  //   : 0;
 
-//   useEffect(() => {
-//     if (isLoading) {
-//       dispatch(saveResultsLoadingStatus("loading"));
-//     } else {
-//       dispatch(saveResultsLoadingStatus("idle"));
-//     }
-//   }, [isLoading]);
+  // const totalNumber = Math.ceil(total / +searchData.perPage);
 
-//   const transformedData = data
-//     ? Array.isArray(data)
-//       ? data
-//       : data.results
-//     : ([] as DataItem[]);
+  // const onCardClick = (id: string) => {
 
-//   const total = data
-//     ? !Array.isArray(data)
-//       ? data.total < 120
-//         ? data.total
-//         : 120
-//       : 0
-//     : 0;
+  // };
 
-//   const totalNumber = Math.ceil(total / +searchData.perPage);
+  // const closeDetails = () => {
 
-//   const onCardClick = (id: string) => {
-//     if (detailsData.isOpen) return;
-//     dispatch(saveOpenStatus(true));
-//     dispatch(saveId(id));
-//   };
+  // };
 
-//   const closeDetails = () => {
-//     dispatch(saveOpenStatus(false));
-//     dispatch(saveId(""));
-//   };
+  // const onCardsContainerClick = () => {
+  //   if (!detailsData.isOpen) return;
+  //   closeDetails();
+  // };
 
-//   const onCardsContainerClick = () => {
-//     if (!detailsData.isOpen) return;
-//     closeDetails();
-//   };
+  useEffect(() => {
+    setCardsData(props.data);
+  }, [props.data]);
 
-//   useEffect(() => {
-//     setCurrentPage(searchData.currentPage);
-//   }, [searchData.currentPage]);
+  // if (isError) {
+  //   return <p>Sorry, there is an error...</p>;
+  // }
 
-//   useEffect(() => {
-//     let url: string;
-//     if (detailsData.id) {
-//       if (!searchData.keyWord) {
-//         url = `details/${detailsData.id}/?page=random&per_page=${searchData.perPage}`;
-//       } else {
-//         url = `details/${detailsData.id}/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
-//       }
-//     } else {
-//       if (!searchData.keyWord) {
-//         url = `/rsschool-react2023q4-course/?page=random&per_page=${searchData.perPage}`;
-//       } else {
-//         url = `/rsschool-react2023q4-course/?search=${searchData.keyWord}&page=${currentPage}&per_page=${searchData.perPage}`;
-//       }
-//     }
-//     navigate(url);
-//   }, [detailsData.id]);
-
-//   if (isError) {
-//     return <p>Sorry, there is an error...</p>;
-//   }
-
-//   return (
-//     <div className={styles.results} data-testid="results">
-//       {isLoading ? (
-//         <p>Loading...</p>
-//       ) : !searchData.keyWord ? (
-//         <p className={styles.random_photos}>RANDOM PHOTOS</p>
-//       ) : (
-//         <Pagination
-//           totalPages={totalNumber}
-//           changeCurrentPage={setCurrentPage}
-//         />
-//       )}
-//       <div className={styles.results_field}>
-//         {transformedData.length > 0 ? (
-//           <div
-//             className={styles.cards_container}
-//             onClick={onCardsContainerClick}
-//           >
-//             {transformedData.map((item) => (
-//               <div
-//                 className={styles.card}
-//                 key={item.id}
-//                 onClick={() => onCardClick(item.id)}
-//               >
-//                 <Card url={item.urls.small} author={item.user.name} />
-//               </div>
-//             ))}
-//           </div>
-//         ) : (
-//           <p>Sorry, but nothing was found.</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
+  return (
+    <div className={styles.results} data-testid="results">
+      {props.pageType === "random" ? (
+        <p className={styles.random_photos}>RANDOM PHOTOS</p>
+      ) : (
+        <p>Pagination is to be here</p>
+        // <Pagination
+        //   totalPages={props.totalNumber}
+        //   changeCurrentPage={() => {
+        //     return;
+        //   }}
+        // />
+      )}
+      <div className={styles.results_field}>
+        {cardsData.length > 0 ? (
+          <div
+            className={styles.cards_container}
+            // onClick={onCardsContainerClick}
+          >
+            {cardsData.map((item) => (
+              <div
+                className={styles.card}
+                key={item.id}
+                // onClick={() => onCardClick(item.id)}
+              >
+                <Card url={item.urls.small} author={item.user.name} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>Sorry, but nothing was found.</p>
+        )}
+      </div>
+    </div>
+  );
+}

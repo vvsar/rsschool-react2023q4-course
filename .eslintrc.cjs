@@ -36,6 +36,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-requires": 0,
     "react-hooks/exhaustive-deps": "off",
+    "@next/next/no-img-element": "off",
   },
   // ignorePatterns: ["**/*.css"],
   settings: {

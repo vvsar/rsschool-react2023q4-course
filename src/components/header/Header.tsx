@@ -1,12 +1,10 @@
 import React, { FormEvent, ChangeEvent, useState, useEffect } from "react";
 import styles from "./Header.module.css";
 import { HeaderProps } from "@/types/types";
-import { useRouter } from "next/router";
 
 export default function Header(props: HeaderProps) {
   const [keyWord, setKeyWord] = useState(props.keyWord);
   const [perPage, setPerPage] = useState(props.perPage);
-  const router = useRouter();
   const placeHolder = "No pagination for random page. Please make a search";
 
   useEffect(() => {
@@ -23,23 +21,19 @@ export default function Header(props: HeaderProps) {
   const updatePerPageValue = (event: ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const value = event.target.value;
-    if (value === perPage) return;
     localStorage.setItem("perPage", value);
+    if (value === perPage) return;
     setPerPage(value);
-    localStorage.setItem("currentPage", "1");
+    props.onPerPageChange(value);
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const value = keyWord.trim();
-    if (value === props.keyWord) return;
     localStorage.setItem("keyWord", value);
-    localStorage.setItem("currentPage", "1");
-    if (!value) {
-      router.push("/random");
-    } else {
-      router.push("/photos");
-    }
+    if (value === props.keyWord) return;
+    setKeyWord(value);
+    props.onSubmit(value);
   };
 
   return (

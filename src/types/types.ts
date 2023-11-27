@@ -30,8 +30,9 @@ export type ResponseData = {
 };
 
 export type ResultsPageProps = {
-  word: string;
-  perPage: string;
+  pageType: string;
+  totalNumber: number;
+  data: DataItem[];
 };
 
 export type DataItemExtended = {
