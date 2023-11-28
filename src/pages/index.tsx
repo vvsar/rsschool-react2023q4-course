@@ -27,9 +27,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p style={{ color: "red", padding: "10px 0" }}>
-        <b>Module05 is not finished. Please check later!</b>
-      </p>
       <main className={styles.main}>
         <p>Thinking...</p>
       </main>
@@ -37,4 +34,7 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async () => {};
+export const getServerSideProps = async () => {
+  const data = null;
+  return { props: { data } };
+};

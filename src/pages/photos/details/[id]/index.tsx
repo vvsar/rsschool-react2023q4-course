@@ -4,10 +4,11 @@ import Head from "next/head";
 import Header from "@/components/header/Header";
 import Results from "@/components/results/Results";
 import { GetServerSideProps } from "next";
-import type { ResponseData } from "@/types/types";
+import type { DetailsPhotosPageProps } from "@/types/types";
 import styles from "@/styles/Home.module.css";
+import Details from "@/components/details/Details";
 
-function PhotosPage({ data }: { data: ResponseData }) {
+function PhotosPage({ data }: { data: DetailsPhotosPageProps }) {
   const [keyWord, setKeyWord] = useState("");
   const [perPage, setPerPage] = useState("4");
   const [currentPage, setCurrentPage] = useState("1");
@@ -22,15 +23,15 @@ function PhotosPage({ data }: { data: ResponseData }) {
     setCurrentPage(currentPageValue);
   }, []);
 
-  useEffect(() => {
-    if (keyWord) {
-      router.push(
-        `/photos/?query=${keyWord}&page=${currentPage}&per_page=${perPage}`,
-        undefined,
-        { shallow: false },
-      );
-    }
-  }, [keyWord, currentPage, perPage]);
+  // useEffect(() => {
+  //   if (keyWord) {
+  //     router.push(
+  //       `/photos/?query=${keyWord}&page=${currentPage}&per_page=${perPage}`,
+  //       undefined,
+  //       { shallow: false },
+  //     );
+  //   }
+  // }, [keyWord, currentPage, perPage]);
 
   function handleSubmit(value: string) {
     if (value === keyWord) return;
@@ -51,7 +52,11 @@ function PhotosPage({ data }: { data: ResponseData }) {
     localStorage.setItem("currentPage", "1");
   }
 
-  const total = data.total ? (data.total < 120 ? data.total : 120) : 0;
+  const total = data.pageData.total
+    ? data.pageData.total < 120
+      ? data.pageData.total
+      : 120
+    : 0;
 
   const totalPagesNumber = Math.ceil(total / +perPage);
 
@@ -61,7 +66,7 @@ function PhotosPage({ data }: { data: ResponseData }) {
     localStorage.setItem("currentPage", value);
   }
 
-  const results = data.results;
+  const results = data.pageData.results;
 
   return (
     <>
@@ -88,23 +93,33 @@ function PhotosPage({ data }: { data: ResponseData }) {
           data={results}
           onPageChange={handlePageNumberChange}
         />
+        <Details pageType="photos" details={data.detailsData} />
       </main>
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  data: ResponseData;
+  data: DetailsPhotosPageProps;
 }> = async (context) => {
   console.log(context.query);
   const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
   const basicUrl = "https://api.unsplash.com/";
-  const { query, page, per_page } = context.query;
-  const res = await fetch(
-    `${basicUrl}search/photos?query=${query}&page=${page}&per_page=${per_page}&client_id=${CLIENT_ID}`,
-  );
-  const data = await res.json();
-  return { props: { data } };
+
+  const { query, page, per_page, id } = context.query;
+  const pageUrl = `${basicUrl}search/photos/?query=${query}&page=${page}&per_page=${per_page}&client_id=${CLIENT_ID}`;
+  const detailsUrl = `${basicUrl}photos/${id}/?client_id=${CLIENT_ID}`;
+
+  function getPage() {
+    return fetch(pageUrl).then((res) => res.json());
+  }
+  function getDetails() {
+    return fetch(detailsUrl).then((res) => res.json());
+  }
+
+  const [pageData, detailsData] = await Promise.all([getPage(), getDetails()]);
+
+  return { props: { data: { pageData: pageData, detailsData: detailsData } } };
 };
 
 export default PhotosPage;

@@ -77,6 +77,11 @@ export type DetailsRandomPageProps = {
   detailsData: DataItemExtended;
 };
 
+export type DetailsPhotosPageProps = {
+  pageData: ResponseData;
+  detailsData: DataItemExtended;
+};
+
 // Loadings
 
 export type LoadingsState = {

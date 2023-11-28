@@ -5,7 +5,6 @@ import Header from "@/components/header/Header";
 import Results from "@/components/results/Results";
 import { GetServerSideProps } from "next";
 import type { DetailsRandomPageProps } from "@/types/types";
-import { ParsedUrlQuery } from "querystring";
 import styles from "@/styles/Home.module.css";
 import Details from "@/components/details/Details";
 
@@ -17,8 +16,6 @@ function RandomPage({ data }: { data: DetailsRandomPageProps }) {
     const perPageValue = localStorage.getItem("perPage") || "4";
     setPerPage(perPageValue);
   }, []);
-
-  useEffect(() => console.log(router.pathname), []);
 
   function handleSubmit(value: string) {
     if (value === "") return;
@@ -72,19 +69,13 @@ export const getServerSideProps: GetServerSideProps<{
   const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
   const basicUrl = "https://api.unsplash.com/";
 
-  const { per_page } = context.query;
+  const { per_page, id } = context.query;
   const pageUrl = `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`;
+  const detailsUrl = `${basicUrl}photos/${id}/?client_id=${CLIENT_ID}`;
 
   function getPage() {
     return fetch(pageUrl).then((res) => res.json());
   }
-
-  interface Params extends ParsedUrlQuery {
-    id: string;
-  }
-  const { id } = context.params as Params;
-  const detailsUrl = `${basicUrl}photos/${id}/?client_id=${CLIENT_ID}`;
-
   function getDetails() {
     return fetch(detailsUrl).then((res) => res.json());
   }
