@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../redux/store";
-import { saveCurrentPageValue } from "../../redux/searchDataSlice";
 import type {
   PaginationProps,
   BackButtonProps,
@@ -97,14 +94,9 @@ function LastPageButton({
   );
 }
 
-export default function Pagination({
-  totalPages,
-  changeCurrentPage,
-}: PaginationProps) {
-  const searchData = useSelector((state: AppState) => state.searchData);
-  const pageNumber = searchData.currentPage;
+export default function Pagination(props: PaginationProps) {
+  const pageNumber = props.currentPage;
   const [currentPage, setCurrentPage] = useState(pageNumber);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setCurrentPage(pageNumber);
@@ -112,56 +104,42 @@ export default function Pagination({
 
   const goToFirstPage = () => {
     if (currentPage === "1") return;
-    dispatch(saveCurrentPageValue("1"));
-    localStorage.setItem("currentPage", "1");
-    changeCurrentPage("1");
+    props.changeCurrentPage("1");
   };
 
   const goToPrevPage = () => {
     if (currentPage === "1") return;
     const page = (+currentPage - 1).toString();
-    dispatch(saveCurrentPageValue(page));
-    localStorage.setItem("currentPage", page);
-    changeCurrentPage(page);
+    props.changeCurrentPage(page);
   };
 
   const goToNextPage = () => {
-    if (currentPage === totalPages.toString()) return;
+    if (currentPage === props.totalPages.toString()) return;
     const page = (+currentPage + 1).toString();
-    dispatch(saveCurrentPageValue(page));
-    localStorage.setItem("currentPage", page);
-    changeCurrentPage(page);
+    props.changeCurrentPage(page);
   };
 
   const goToLastPage = () => {
-    if (currentPage === totalPages.toString()) return;
-    const page = totalPages.toString();
-    dispatch(saveCurrentPageValue(page));
-    localStorage.setItem("currentPage", page);
-    changeCurrentPage(page);
+    if (currentPage === props.totalPages.toString()) return;
+    const page = props.totalPages.toString();
+    props.changeCurrentPage(page);
   };
 
-  return totalPages === 0 ? null : (
+  return props.totalPages === 0 ? null : (
     <div className={styles.pagination}>
-      <FirstPageButton
-        pageNumber={searchData.currentPage}
-        onClick={goToFirstPage}
-      />
-      <PrevPageButton
-        pageNumber={searchData.currentPage}
-        onClick={goToPrevPage}
-      />
+      <FirstPageButton pageNumber={props.currentPage} onClick={goToFirstPage} />
+      <PrevPageButton pageNumber={props.currentPage} onClick={goToPrevPage} />
       <p
         className={styles.page_info}
-      >{`PAGE ${searchData.currentPage} OF ${totalPages}`}</p>
+      >{`PAGE ${currentPage} OF ${props.totalPages}`}</p>
       <NextPageButton
         pageNumber={pageNumber}
-        totalPages={totalPages}
+        totalPages={props.totalPages}
         onClick={goToNextPage}
       />
       <LastPageButton
         pageNumber={pageNumber}
-        totalPages={totalPages}
+        totalPages={props.totalPages}
         onClick={goToLastPage}
       />
     </div>

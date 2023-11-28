@@ -56,7 +56,15 @@ function RandomPage({ data }: { data: DataItem[] }) {
         onPerPageChange={handlePerPageChange}
       />
       <main className={styles.main}>
-        <Results pageType="random" totalNumber={1} data={data} />
+        <Results
+          pageType="random"
+          totalPagesNumber={1}
+          currentPage="1"
+          data={data}
+          onPageChange={() => {
+            return;
+          }}
+        />
       </main>
     </>
   );
@@ -73,9 +81,6 @@ export const getServerSideProps: GetServerSideProps<{
     `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`,
   );
   const data = await res.json();
-  // if (!data) {
-  //   return { props: { [] } };
-  // }
   return { props: { data } };
 };
 

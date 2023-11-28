@@ -31,8 +31,10 @@ export type ResponseData = {
 
 export type ResultsPageProps = {
   pageType: string;
-  totalNumber: number;
+  totalPagesNumber: number;
+  currentPage: string;
   data: DataItem[];
+  onPageChange: (value: string) => void;
 };
 
 export type DataItemExtended = {
@@ -48,6 +50,7 @@ export type DataItemExtended = {
 
 export type PaginationProps = {
   totalPages: number;
+  currentPage: string;
   changeCurrentPage: (value: string) => void;
 };
 

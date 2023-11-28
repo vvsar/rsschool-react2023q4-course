@@ -51,12 +51,15 @@ function PhotosPage({ data }: { data: ResponseData }) {
     localStorage.setItem("currentPage", "1");
   }
 
-  // FUNCTION FOR PAGINATION (TEMPORARILY COMMENTED)
-  // function handlePageNumberChange(value: string) {
-  //   if (value === currentPage) return;
-  //   setCurrentPage("1");
-  //   localStorage.setItem("currentPage", "1");
-  // }
+  const total = data.total ? (data.total < 120 ? data.total : 120) : 0;
+
+  const totalPagesNumber = Math.ceil(total / +perPage);
+
+  function handlePageNumberChange(value: string) {
+    if (value === currentPage) return;
+    setCurrentPage(value);
+    localStorage.setItem("currentPage", value);
+  }
 
   const results = data.results;
 
@@ -78,7 +81,13 @@ function PhotosPage({ data }: { data: ResponseData }) {
         onPerPageChange={handlePerPageChange}
       />
       <main className={styles.main}>
-        <Results pageType="photos" totalNumber={1} data={results} />
+        <Results
+          pageType="photos"
+          totalPagesNumber={totalPagesNumber}
+          currentPage={currentPage}
+          data={results}
+          onPageChange={handlePageNumberChange}
+        />
       </main>
     </>
   );
@@ -95,9 +104,6 @@ export const getServerSideProps: GetServerSideProps<{
     `${basicUrl}search/photos?query=${query}&page=${page}&per_page=${per_page}&client_id=${CLIENT_ID}`,
   );
   const data = await res.json();
-  // if (!data) {
-  //   return { props: { [] } };
-  // }
   return { props: { data } };
 };
 
