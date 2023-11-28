@@ -72,6 +72,11 @@ export type DetailsState = {
   id: string;
 };
 
+export type DetailsRandomPageProps = {
+  pageData: DataItem[];
+  detailsData: DataItemExtended;
+};
+
 // Loadings
 
 export type LoadingsState = {

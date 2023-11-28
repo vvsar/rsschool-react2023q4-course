@@ -4,35 +4,64 @@ import Head from "next/head";
 import Header from "@/components/header/Header";
 import Results from "@/components/results/Results";
 import { GetServerSideProps } from "next";
-import type { DataItem } from "@/types/types";
+import type { ResponseData } from "@/types/types";
 import styles from "@/styles/Home.module.css";
 
-function RandomPage({ data }: { data: DataItem[] }) {
-  const router = useRouter();
+function PhotosPage({ data }: { data: ResponseData }) {
+  const [keyWord, setKeyWord] = useState("");
   const [perPage, setPerPage] = useState("4");
+  const [currentPage, setCurrentPage] = useState("1");
+  const router = useRouter();
 
   useEffect(() => {
+    const searchValue = localStorage.getItem("keyWord") || "";
+    setKeyWord(searchValue);
     const perPageValue = localStorage.getItem("perPage") || "4";
     setPerPage(perPageValue);
+    const currentPageValue = localStorage.getItem("currentPage") || "1";
+    setCurrentPage(currentPageValue);
   }, []);
 
   useEffect(() => {
-    router.push(`random/?per_page=${perPage}`, undefined, {
-      shallow: false,
-    });
-  }, [perPage]);
+    if (keyWord) {
+      router.push(
+        `/photos/?query=${keyWord}&page=${currentPage}&per_page=${perPage}`,
+        undefined,
+        { shallow: false },
+      );
+    }
+  }, [keyWord, currentPage, perPage]);
 
   function handleSubmit(value: string) {
-    if (value === "") return;
-    router.push("/photos");
+    if (value === keyWord) return;
+    if (value === "") {
+      router.push("/random");
+    }
+    localStorage.setItem("keyWord", value);
+    setKeyWord(value);
+    setCurrentPage("1");
     localStorage.setItem("currentPage", "1");
   }
 
   function handlePerPageChange(value: string) {
     if (value === perPage) return;
+    localStorage.setItem("perPage", value);
     setPerPage(value);
+    setCurrentPage("1");
     localStorage.setItem("currentPage", "1");
   }
+
+  const total = data.total ? (data.total < 120 ? data.total : 120) : 0;
+
+  const totalPagesNumber = Math.ceil(total / +perPage);
+
+  function handlePageNumberChange(value: string) {
+    if (value === currentPage) return;
+    setCurrentPage(value);
+    localStorage.setItem("currentPage", value);
+  }
+
+  const results = data.results;
 
   return (
     <>
@@ -46,20 +75,18 @@ function RandomPage({ data }: { data: DataItem[] }) {
         <b>Module05 is not finished. Please check later!</b>
       </p>
       <Header
-        keyWord=""
+        keyWord={keyWord}
         perPage={perPage}
         onSubmit={handleSubmit}
         onPerPageChange={handlePerPageChange}
       />
       <main className={styles.main}>
         <Results
-          pageType="random"
-          totalPagesNumber={1}
-          currentPage="1"
-          data={data}
-          onPageChange={() => {
-            return;
-          }}
+          pageType="photos"
+          totalPagesNumber={totalPagesNumber}
+          currentPage={currentPage}
+          data={results}
+          onPageChange={handlePageNumberChange}
         />
       </main>
     </>
@@ -67,17 +94,17 @@ function RandomPage({ data }: { data: DataItem[] }) {
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  data: DataItem[];
+  data: ResponseData;
 }> = async (context) => {
   console.log(context.query);
   const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
   const basicUrl = "https://api.unsplash.com/";
-  const { per_page } = context.query;
+  const { query, page, per_page } = context.query;
   const res = await fetch(
-    `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`,
+    `${basicUrl}search/photos?query=${query}&page=${page}&per_page=${per_page}&client_id=${CLIENT_ID}`,
   );
   const data = await res.json();
   return { props: { data } };
 };
 
-export default RandomPage;
+export default PhotosPage;

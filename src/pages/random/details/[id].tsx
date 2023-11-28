@@ -4,10 +4,12 @@ import Head from "next/head";
 import Header from "@/components/header/Header";
 import Results from "@/components/results/Results";
 import { GetServerSideProps } from "next";
-import type { DataItem } from "@/types/types";
+import type { DetailsRandomPageProps } from "@/types/types";
+import { ParsedUrlQuery } from "querystring";
 import styles from "@/styles/Home.module.css";
+import Details from "@/components/details/Details";
 
-function RandomPage({ data }: { data: DataItem[] }) {
+function RandomPage({ data }: { data: DetailsRandomPageProps }) {
   const router = useRouter();
   const [perPage, setPerPage] = useState("4");
 
@@ -16,11 +18,7 @@ function RandomPage({ data }: { data: DataItem[] }) {
     setPerPage(perPageValue);
   }, []);
 
-  useEffect(() => {
-    router.push(`random/?per_page=${perPage}`, undefined, {
-      shallow: false,
-    });
-  }, [perPage]);
+  useEffect(() => console.log(router.pathname), []);
 
   function handleSubmit(value: string) {
     if (value === "") return;
@@ -56,28 +54,44 @@ function RandomPage({ data }: { data: DataItem[] }) {
           pageType="random"
           totalPagesNumber={1}
           currentPage="1"
-          data={data}
+          data={data.pageData}
           onPageChange={() => {
             return;
           }}
         />
+        <Details pageType="random" details={data.detailsData} />
       </main>
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
-  data: DataItem[];
+  data: DetailsRandomPageProps;
 }> = async (context) => {
   console.log(context.query);
   const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
   const basicUrl = "https://api.unsplash.com/";
+
   const { per_page } = context.query;
-  const res = await fetch(
-    `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`,
-  );
-  const data = await res.json();
-  return { props: { data } };
+  const pageUrl = `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`;
+
+  function getPage() {
+    return fetch(pageUrl).then((res) => res.json());
+  }
+
+  interface Params extends ParsedUrlQuery {
+    id: string;
+  }
+  const { id } = context.params as Params;
+  const detailsUrl = `${basicUrl}photos/${id}/?client_id=${CLIENT_ID}`;
+
+  function getDetails() {
+    return fetch(detailsUrl).then((res) => res.json());
+  }
+
+  const [pageData, detailsData] = await Promise.all([getPage(), getDetails()]);
+
+  return { props: { data: { pageData: pageData, detailsData: detailsData } } };
 };
 
 export default RandomPage;
