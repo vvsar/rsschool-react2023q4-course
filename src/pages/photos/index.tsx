@@ -1,40 +1,45 @@
-import { useState } from "react";
-// import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "@/components/header/Header";
+import Results from "@/components/results/Results";
+import { GetServerSideProps } from "next";
+import type { ResponseData } from "@/types/types";
 import styles from "@/styles/Home.module.css";
 
-export default function PhotosPage() {
+function PhotosPage({ data }: { data: ResponseData }) {
   const [keyWord, setKeyWord] = useState("");
   const [perPage, setPerPage] = useState("4");
-  // const [currentPage, setCurrentPage] = useState("1");
-  // const router = useRouter();
+  const [currentPage, setCurrentPage] = useState("1");
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   setKeyWord(localStorage.getItem("keyWord") || "");
-  //   setPerPage(localStorage.getItem("perPage") || "4");
-  //   setCurrentPage(localStorage.getItem("currentPage") || "1");
-  // }, []);
+  useEffect(() => {
+    const searchValue = localStorage.getItem("keyWord") || "";
+    setKeyWord(searchValue);
+    const perPageValue = localStorage.getItem("perPage") || "4";
+    setPerPage(perPageValue);
+    const currentPageValue = localStorage.getItem("currentPage") || "1";
+    setCurrentPage(currentPageValue);
+  }, []);
 
-  // useEffect(() => {
-  //   if (keyWord) {
-  //     router.push(
-  //       `/?query=${keyWord}&page=${currentPage}&per_page=${perPage}`,
-  //       undefined,
-  //       { shallow: true }
-  //     );
-  //   } else {
-  //     router.push(`/?page=rundom&per_page=${perPage}`, undefined, {
-  //       shallow: true,
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (keyWord) {
+      router.push(
+        `/photos/?query=${keyWord}&page=${currentPage}&per_page=${perPage}`,
+        undefined,
+        { shallow: false },
+      );
+    }
+  }, [keyWord, currentPage, perPage]);
 
   function handleSubmit(value: string) {
     if (value === keyWord) return;
+    if (value === "") {
+      router.push("/random");
+    }
     localStorage.setItem("keyWord", value);
     setKeyWord(value);
-    // setCurrentPage("1");
+    setCurrentPage("1");
     localStorage.setItem("currentPage", "1");
   }
 
@@ -42,9 +47,18 @@ export default function PhotosPage() {
     if (value === perPage) return;
     localStorage.setItem("perPage", value);
     setPerPage(value);
-    // setCurrentPage("1");
+    setCurrentPage("1");
     localStorage.setItem("currentPage", "1");
   }
+
+  // FUNCTION FOR PAGINATION (TEMPORARILY COMMENTED)
+  // function handlePageNumberChange(value: string) {
+  //   if (value === currentPage) return;
+  //   setCurrentPage("1");
+  //   localStorage.setItem("currentPage", "1");
+  // }
+
+  const results = data.results;
 
   return (
     <>
@@ -64,8 +78,27 @@ export default function PhotosPage() {
         onPerPageChange={handlePerPageChange}
       />
       <main className={styles.main}>
-        <p>SEARCH RESULTS ARE TO BE HERE...</p>
+        <Results pageType="photos" totalNumber={1} data={results} />
       </main>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  data: ResponseData;
+}> = async (context) => {
+  console.log(context.query);
+  const CLIENT_ID = "cfdYGk4NiOtEue__iSqawbVIwnqHm03dnyVqT6cLXLg";
+  const basicUrl = "https://api.unsplash.com/";
+  const { query, page, per_page } = context.query;
+  const res = await fetch(
+    `${basicUrl}search/photos?query=${query}&page=${page}&per_page=${per_page}&client_id=${CLIENT_ID}`,
+  );
+  const data = await res.json();
+  // if (!data) {
+  //   return { props: { [] } };
+  // }
+  return { props: { data } };
+};
+
+export default PhotosPage;

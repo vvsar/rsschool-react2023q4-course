@@ -8,8 +8,12 @@ import type { DataItem } from "@/types/types";
 import styles from "@/styles/Home.module.css";
 
 function RandomPage({ data }: { data: DataItem[] }) {
-  const [perPage, setPerPage] = useState("4");
   const router = useRouter();
+  const searchValue = localStorage.getItem("keyWord") || "";
+  if (searchValue) {
+    router.push("/photos");
+  }
+  const [perPage, setPerPage] = useState("4");
 
   useEffect(() => {
     const perPageValue = localStorage.getItem("perPage") || "4";
@@ -32,7 +36,6 @@ function RandomPage({ data }: { data: DataItem[] }) {
     if (value === perPage) return;
     setPerPage(value);
     localStorage.setItem("currentPage", "1");
-    // router.reload();
   }
 
   return (
@@ -70,9 +73,9 @@ export const getServerSideProps: GetServerSideProps<{
     `${basicUrl}photos/random?count=${per_page}&client_id=${CLIENT_ID}`,
   );
   const data = await res.json();
-  if (!data) {
-    return { notFound: true };
-  }
+  // if (!data) {
+  //   return { props: { [] } };
+  // }
   return { props: { data } };
 };
 
