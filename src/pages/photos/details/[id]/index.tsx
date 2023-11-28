@@ -23,16 +23,6 @@ function PhotosPage({ data }: { data: DetailsPhotosPageProps }) {
     setCurrentPage(currentPageValue);
   }, []);
 
-  // useEffect(() => {
-  //   if (keyWord) {
-  //     router.push(
-  //       `/photos/?query=${keyWord}&page=${currentPage}&per_page=${perPage}`,
-  //       undefined,
-  //       { shallow: false },
-  //     );
-  //   }
-  // }, [keyWord, currentPage, perPage]);
-
   function handleSubmit(value: string) {
     if (value === keyWord) return;
     if (value === "") {

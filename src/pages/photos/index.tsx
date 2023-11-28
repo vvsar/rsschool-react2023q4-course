@@ -71,9 +71,6 @@ function PhotosPage({ data }: { data: ResponseData }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p style={{ color: "red", padding: "10px 0" }}>
-        <b>Module05 is not finished. Please check later!</b>
-      </p>
       <Header
         keyWord={keyWord}
         perPage={perPage}
