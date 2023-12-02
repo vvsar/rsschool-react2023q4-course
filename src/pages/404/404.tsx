@@ -1,14 +1,13 @@
+import Header from "../../components/header/Header";
 import "./404.css";
 
 export default function Page404() {
   return (
     <>
-      <header className="header">
-        <div className="page-title">
-          <span>FIND IMAGES ON</span>
-        </div>
+      <Header />
+      <main className="content-404">
         <h2 className="h2">PAGE NOT FOUND!</h2>
-      </header>
+      </main>
     </>
   );
 }
