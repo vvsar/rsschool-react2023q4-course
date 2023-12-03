@@ -1,18 +1,15 @@
+import { UserData } from "../../types/types";
 import "./Card.css";
 
-type CardProps = {
-  url: string;
-  author: string;
-};
-
-export default function Card(props: CardProps) {
+export default function Card(props: UserData) {
   return (
     <>
-      <div className="image-box" data-testid="card">
-        <img className="img" src={props.url} alt={props.author}></img>
-      </div>
-      <div className="image-data">
-        <p className="author">Author: {props.author}</p>
+      <div className="cardbox" data-testid="card">
+        <p>{props.name}</p>
+        <p>{props.age}</p>
+        <p>{props.email}</p>
+        <p>{props.gender}</p>
+        <p>{props.country}</p>
       </div>
     </>
   );
