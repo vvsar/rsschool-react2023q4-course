@@ -19,6 +19,8 @@ export default function Results() {
                   email={item.email}
                   gender={item.gender}
                   country={item.country}
+                  password=""
+                  confirm_password=""
                 />
               </div>
             ))}

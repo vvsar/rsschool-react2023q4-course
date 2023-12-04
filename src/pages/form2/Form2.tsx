@@ -31,7 +31,11 @@ export default function Form2() {
       <Header />
       <main className="form2-main">
         <p className="form2-notice">All fields are required</p>
-        <form className="form2-wrapper" onSubmit={handleSubmit(doSubmit)}>
+        <form
+          className="form2-wrapper"
+          onSubmit={handleSubmit(doSubmit)}
+          noValidate
+        >
           <label htmlFor="name">Name:</label>
           <input id="name" type="text" {...register("name")}></input>
           <div>{errors.name && <p>{errors.name.message}</p>}</div>
