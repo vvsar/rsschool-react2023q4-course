@@ -1,0 +1,50 @@
+.form1-main {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form1-notice {
+  color: #FFFFFF;
+  font-size: 20px;
+}
+
+.form1-wrapper {
+  padding: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 5px solid #32CD32;
+  border-radius: 10px;
+}
+
+.form1-gender-choice {
+  display: flex;
+}
+
+.form1-gender-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.form1-gender-option {
+  display: flex;
+}
+
+.form1-accept-terms {
+  display: flex;
+}
+
+.form1-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.form1-button {
+  width: 80px;
+  height: 30px;
+}

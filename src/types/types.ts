@@ -5,8 +5,8 @@ export type UserData = {
   gender: string;
   country: string;
   // photo: string;
-  password: string;
-  confirm_password: string;
+  password?: string;
+  confirm_password?: string;
   accept?: boolean | undefined;
 };
 

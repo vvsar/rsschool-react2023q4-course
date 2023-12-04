@@ -39,4 +39,5 @@ module.exports = {
       version: "detect",
     },
   },
+  ignorePatterns: ["dist", "node_modules"],
 };

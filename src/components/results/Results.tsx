@@ -1,19 +1,11 @@
-// import { useEffect } from "react";
 import Card from "../card/Card";
 import "./Results.css";
 import { AppState } from "../../redux/store";
 import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 
 export default function Results() {
-  // const [state, setState] = useState([] as AppState);
-
   const data = useSelector((state: AppState) => state.data);
-  // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // console.log(data);
-  // }, [data]);
   return (
     <div className="results" data-testid="results">
       <div className="results-field">
@@ -27,7 +19,6 @@ export default function Results() {
                   email={item.email}
                   gender={item.gender}
                   country={item.country}
-                  password={item.password}
                 />
               </div>
             ))}
