@@ -4,10 +4,8 @@ const yupSchema = yup.object().shape({
   name: yup
     .string()
     .required("This field is required")
-    .test(
-      "first_letter",
-      "The first character must be an uppercase letter",
-      (value) => checkFirstLetter(value),
+    .test("first_letter", "The first character must be uppercase", (value) =>
+      checkFirstLetter(value),
     ),
   age: yup
     .number()

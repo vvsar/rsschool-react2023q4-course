@@ -5,7 +5,7 @@ import { saveUsersData } from "../../redux/usersDataSlice";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import "./Form1.css";
-import { UserData } from "../../types/types";
+import { UserData, DataForm } from "../../types/types";
 import { ValidationError } from "yup";
 import yupSchema from "../../yup/yup";
 
@@ -13,48 +13,38 @@ export default function Form1() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const data = useSelector((state: AppState) => state.data);
-  let accept: boolean | undefined;
+  // let accept: boolean | undefined;
   const [errors, setErrors] = useState<{
     [index: string]: ValidationError | undefined;
   }>({});
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<DataForm>) => {
     e.preventDefault();
     const newErrors: { [index: string]: ValidationError } = {};
-    const target = e.target as HTMLFormElement;
-    const name = (target.elements.namedItem("name") as HTMLInputElement).value;
-    const age = +(target.elements.namedItem("age") as HTMLInputElement).value;
-    const email = (target.elements.namedItem("email") as HTMLInputElement)
-      .value;
-    const gender = (target.elements.namedItem("gender") as HTMLInputElement)
-      .value;
-    const country = (target.elements.namedItem("country") as HTMLInputElement)
-      .value;
-    const password = (target.elements.namedItem("password") as HTMLInputElement)
-      .value;
-    const confirm_password = (
-      target.elements.namedItem("confirm_password") as HTMLInputElement
-    ).value;
-    const acceptValue = (
-      target.elements.namedItem("accept") as HTMLInputElement
-    ).value;
-    if (acceptValue === "true") {
-      accept = true;
-    }
-    if (acceptValue === "false") {
-      accept = false;
-    }
+    const elements = e.currentTarget.elements;
+    const formData = {
+      name: elements.name.value,
+      age: elements.age.value,
+      email: elements.email.value,
+      gender: elements.gender.value,
+      country: elements.country.value,
+      password: elements.password.value,
+      confirm_password: elements.confirm_password.value,
+      accept: elements.accept.checked,
+    };
+
     let newData: UserData[] = [];
     const addition = {
-      name: name,
-      age: age,
-      email: email,
-      gender: gender,
-      country: country,
-      password: password,
-      confirm_password: confirm_password,
-      accept: accept,
+      name: formData.name,
+      age: +formData.age,
+      email: formData.email,
+      gender: formData.gender,
+      country: formData.country,
+      password: formData.password,
+      confirm_password: formData.confirm_password,
+      accept: formData.accept,
     };
+
     await yupSchema
       .validate(addition, {
         abortEarly: false,
@@ -79,16 +69,37 @@ export default function Form1() {
       <Header />
       <main className="form1-main">
         <p className="form1-notice">All fields are required</p>
-        <form className="form1-wrapper" onSubmit={handleSubmit}>
+        <form className="form1-wrapper" onSubmit={handleSubmit} noValidate>
           <label htmlFor="name">Name:</label>
-          <input id="name" name="name" type="text"></input>
-          <div>{errors.name && <p>{errors.name.message}</p>}</div>
+          <input
+            className="form1-input-text"
+            id="name"
+            name="name"
+            type="text"
+          ></input>
+          <div className="form1-error">
+            {errors.name && <p>{errors.name.message}</p>}
+          </div>
           <label htmlFor="age">Age:</label>
-          <input id="age" name="age" type="number"></input>
-          <div>{errors.age && <p>{errors.age.message}</p>}</div>
+          <input
+            className="form1-input-text"
+            id="age"
+            name="age"
+            type="number"
+          ></input>
+          <div className="form1-error">
+            {errors.age && <p>{errors.age.message}</p>}
+          </div>
           <label htmlFor="email">E-mail:</label>
-          <input id="email" name="email" type="email"></input>
-          <div>{errors.email && <p>{errors.email.message}</p>}</div>
+          <input
+            className="form1-input-text"
+            id="email"
+            name="email"
+            type="email"
+          ></input>
+          <div className="form1-error">
+            {errors.email && <p>{errors.email.message}</p>}
+          </div>
           <div className="form1-gender-choice">
             <p>Gender:</p>
             <div className="form1-gender-options">
@@ -121,15 +132,20 @@ export default function Form1() {
               </div>
             </div>
           </div>
-          <div>{errors.gender && <p>{errors.gender.message}</p>}</div>
+          <div className="form1-error">
+            {errors.gender && <p>{errors.gender.message}</p>}
+          </div>
           <label htmlFor="country">Select country:</label>
           <input
+            className="form1-input-text"
             id="country"
             name="country"
             type="text"
             autoComplete="country-name"
           ></input>
-          <div>{errors.country && <p>{errors.country.message}</p>}</div>
+          <div className="form1-error">
+            {errors.country && <p>{errors.country.message}</p>}
+          </div>
           {/* <label htmlFor="picture">Choose a profile picture:</label>
             <input
               type="file"
@@ -138,15 +154,23 @@ export default function Form1() {
               accept="image/png, image/jpeg"
             /> */}
           <label htmlFor="password">Password:</label>
-          <input id="password" name="password" type="password"></input>
-          <div>{errors.password && <p>{errors.password.message}</p>}</div>
+          <input
+            className="form1-input-text"
+            id="password"
+            name="password"
+            type="password"
+          ></input>
+          <div className="form1-error">
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
           <label htmlFor="confirm_password">Confirm password:</label>
           <input
+            className="form1-input-text"
             id="confirm_password"
             name="confirm_password"
             type="password"
           ></input>
-          <div>
+          <div className="form1-error">
             {errors.confirm_password && (
               <p>{errors.confirm_password.message}</p>
             )}
@@ -155,7 +179,9 @@ export default function Form1() {
             <input type="checkbox" id="accept" name="accept"></input>
             <label htmlFor="accept">Accept terms and conditions</label>
           </div>
-          <div>{errors.accept && <p>{errors.accept.message}</p>}</div>
+          <div className="form1-error">
+            {errors.accept && <p>{errors.accept.message}</p>}
+          </div>
           <div className="form1-buttons">
             <button className="form1-button submit-button" type="submit">
               SUBMIT

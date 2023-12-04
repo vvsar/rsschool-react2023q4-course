@@ -1,6 +1,5 @@
 .form2-main {
   width: 100%;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +8,8 @@
 .form2-notice {
   color: #FFFFFF;
   font-size: 20px;
+  padding: 0;
+  line-height: 1;
 }
 
 .form2-wrapper {
@@ -16,13 +17,33 @@
   width: 300px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
   border: 5px solid #4169E1;
   border-radius: 10px;
+  color: #FFFFFF;
+}
+
+.form2-input-text {
+  width: 100%;
+}
+
+.form2-error {
+  margin: 0;
+  height: 20px;
+  line-height: normal;
+}
+
+.form2-error p {
+  margin: 0;
+  padding: 0;
+  color: #FF0000;
+  font-size: 14px;
 }
 
 .form2-gender-choice {
   display: flex;
+  gap: 20px;
 }
 
 .form2-gender-options {
@@ -39,12 +60,18 @@
 }
 
 .form2-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+  align-self: center;
 }
 
 .form2-button {
   width: 80px;
   height: 30px;
+  position: relative;
+  background: #4169E1;
+  border-radius: 50% / 15%;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px #FFFFFF solid;
+  cursor: pointer;
 }

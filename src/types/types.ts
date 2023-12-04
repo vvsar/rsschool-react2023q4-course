@@ -13,3 +13,18 @@ export type UserData = {
 export type ResultsState = {
   data: UserData[];
 };
+
+export interface DataElements extends HTMLFormControlsCollection {
+  name: HTMLInputElement;
+  age: HTMLInputElement;
+  email: HTMLInputElement;
+  gender: HTMLInputElement;
+  country: HTMLInputElement;
+  password: HTMLInputElement;
+  confirm_password: HTMLInputElement;
+  accept: HTMLInputElement;
+}
+
+export interface DataForm extends HTMLFormElement {
+  readonly elements: DataElements;
+}

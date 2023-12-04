@@ -37,14 +37,35 @@ export default function Form2() {
           noValidate
         >
           <label htmlFor="name">Name:</label>
-          <input id="name" type="text" {...register("name")}></input>
-          <div>{errors.name && <p>{errors.name.message}</p>}</div>
+          <input
+            className="form2-input-text"
+            id="name"
+            type="text"
+            {...register("name")}
+          ></input>
+          <div className="form2-error">
+            {errors.name && <p>{errors.name.message}</p>}
+          </div>
           <label htmlFor="age">Age:</label>
-          <input id="age" type="number" {...register("age")}></input>
-          <div>{errors.age && <p>{errors.age.message}</p>}</div>
+          <input
+            className="form2-input-text"
+            id="age"
+            type="number"
+            {...register("age")}
+          ></input>
+          <div className="form2-error">
+            {errors.age && <p>{errors.age.message}</p>}
+          </div>
           <label htmlFor="email">E-mail:</label>
-          <input id="email" type="email" {...register("email")}></input>
-          <div>{errors.email && <p>{errors.email.message}</p>}</div>
+          <input
+            className="form2-input-text"
+            id="email"
+            type="email"
+            {...register("email")}
+          ></input>
+          <div className="form2-error">
+            {errors.email && <p>{errors.email.message}</p>}
+          </div>
           <div className="form2-gender-choice">
             <p>Gender:</p>
             <div className="form2-gender-options">
@@ -77,15 +98,20 @@ export default function Form2() {
               </div>
             </div>
           </div>
-          <div>{errors.gender && <p>{errors.gender.message}</p>}</div>
+          <div className="form2-error">
+            {errors.gender && <p>{errors.gender.message}</p>}
+          </div>
           <label htmlFor="country">Select country:</label>
           <input
+            className="form2-input-text"
             id="country"
             type="text"
             autoComplete="country-name"
             {...register("country")}
           ></input>
-          <div>{errors.country && <p>{errors.country.message}</p>}</div>
+          <div className="form2-error">
+            {errors.country && <p>{errors.country.message}</p>}
+          </div>
           {/* <label htmlFor="picture">Choose a profile picture:</label>
             <input
               type="file"
@@ -95,18 +121,22 @@ export default function Form2() {
             /> */}
           <label htmlFor="password">Password:</label>
           <input
+            className="form2-input-text"
             id="password"
             type="password"
             {...register("password")}
           ></input>
-          <div>{errors.password && <p>{errors.password.message}</p>}</div>
+          <div className="form2-error">
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
           <label htmlFor="confirm-password">Confirm password:</label>
           <input
+            className="form2-input-text"
             id="confirm_password"
             type="password"
             {...register("confirm_password")}
           ></input>
-          <div>
+          <div className="form2-error">
             {errors.confirm_password && (
               <p>{errors.confirm_password.message}</p>
             )}
@@ -115,7 +145,9 @@ export default function Form2() {
             <input type="checkbox" id="accept" {...register("accept")}></input>
             <label htmlFor="accept">Accept terms and conditions</label>
           </div>
-          <div>{errors.accept && <p>{errors.accept.message}</p>}</div>
+          <div className="form2-error">
+            {errors.accept && <p>{errors.accept.message}</p>}
+          </div>
           <div className="form1-buttons">
             <button className="form2-button submit-button" type="submit">
               SUBMIT
