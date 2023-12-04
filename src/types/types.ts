@@ -7,7 +7,7 @@ export type UserData = {
   // photo: string;
   password: string;
   confirm_password: string;
-  accept?: boolean;
+  accept?: boolean | undefined;
 };
 
 export type ResultsState = {
