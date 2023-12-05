@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const MAX_FILE_SIZE = 1073741824; //1GB
+const MAX_FILE_SIZE = 1048576; //1MB
 
 const yupSchema = yup.object().shape({
   name: yup
@@ -24,15 +24,18 @@ const yupSchema = yup.object().shape({
   picture: yup
     .mixed<FileList>()
     .required("Picture must be uploaded")
+    .test("is-required", "Picture must be uploaded", (list) =>
+      list[0] ? true : false,
+    )
     .test(
       "is-valid-type",
       "Not a valid image type",
-      (list) => list[0].type === "image/jpeg" || list[0].type === "image/png",
+      (list) => list[0]?.type === "image/jpeg" || list[0]?.type === "image/png",
     )
     .test(
       "is-valid-size",
-      "Max allowed size is 1GB",
-      (list) => list && list[0].size <= MAX_FILE_SIZE,
+      "Max allowed size is 1MB",
+      (list) => list[0]?.size <= MAX_FILE_SIZE,
     ),
   password: yup
     .string()
