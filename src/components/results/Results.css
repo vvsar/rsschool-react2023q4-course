@@ -33,14 +33,11 @@
   justify-content: space-around;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  border: solid 2px black;
-  border-radius: 5px;
-}
-
-.card:hover {
-  cursor: pointer;
-  box-shadow: 0 0 6px 1px #000000;
+.card-wrapper {
+  width: 300px;
+  height: 400px;
+  padding: 10px;
+  border: solid 5px #FFFFFF;
+  border-radius: 10px;
+  color: #FFFFFF;
 }

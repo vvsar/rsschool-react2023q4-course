@@ -12,13 +12,14 @@ export default function Results() {
         {data.length > 0 ? (
           <div className="cards-container">
             {data.map((item, index) => (
-              <div className="card" key={index}>
+              <div className="card-wrapper" key={index}>
                 <Card
                   name={item.name}
                   age={item.age}
                   email={item.email}
                   gender={item.gender}
                   country={item.country}
+                  picture={item.picture}
                   password=""
                   confirm_password=""
                 />

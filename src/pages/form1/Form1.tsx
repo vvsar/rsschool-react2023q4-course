@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import "./Form1.css";
 import { UserData, DataForm } from "../../types/types";
+import { convertToBase64 } from "../../utils/utils";
 import { ValidationError } from "yup";
 import yupSchema from "../../yup/yup";
 
@@ -13,7 +14,6 @@ export default function Form1() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const data = useSelector((state: AppState) => state.data);
-  // let accept: boolean | undefined;
   const [errors, setErrors] = useState<{
     [index: string]: ValidationError | undefined;
   }>({});
@@ -28,25 +28,14 @@ export default function Form1() {
       email: elements.email.value,
       gender: elements.gender.value,
       country: elements.country.value,
+      picture: elements.picture.files,
       password: elements.password.value,
       confirm_password: elements.confirm_password.value,
       accept: elements.accept.checked,
     };
 
-    let newData: UserData[] = [];
-    const addition = {
-      name: formData.name,
-      age: +formData.age,
-      email: formData.email,
-      gender: formData.gender,
-      country: formData.country,
-      password: formData.password,
-      confirm_password: formData.confirm_password,
-      accept: formData.accept,
-    };
-
     await yupSchema
-      .validate(addition, {
+      .validate(formData, {
         abortEarly: false,
       })
       .catch((err: ValidationError) => {
@@ -58,12 +47,31 @@ export default function Form1() {
         });
         setErrors(newErrors);
       });
+
+    const transformedPicture = formData.picture
+      ? await convertToBase64(formData.picture[0])
+      : "";
+
+    let newData: UserData[] = [];
+    const addition = {
+      name: formData.name,
+      age: +formData.age,
+      email: formData.email,
+      gender: formData.gender,
+      country: formData.country,
+      picture: transformedPicture,
+      password: formData.password,
+      confirm_password: formData.confirm_password,
+      accept: formData.accept,
+    };
+
     if (Object.keys(newErrors).length === 0) {
       newData = [...data, addition];
       dispatch(saveUsersData(newData));
       navigate(-1);
     }
   };
+
   return (
     <>
       <Header />
@@ -80,6 +88,7 @@ export default function Form1() {
           <div className="form1-error">
             {errors.name && <p>{errors.name.message}</p>}
           </div>
+
           <label htmlFor="age">Age:</label>
           <input
             className="form1-input-text"
@@ -90,6 +99,7 @@ export default function Form1() {
           <div className="form1-error">
             {errors.age && <p>{errors.age.message}</p>}
           </div>
+
           <label htmlFor="email">E-mail:</label>
           <input
             className="form1-input-text"
@@ -100,6 +110,7 @@ export default function Form1() {
           <div className="form1-error">
             {errors.email && <p>{errors.email.message}</p>}
           </div>
+
           <div className="form1-gender-choice">
             <p>Gender:</p>
             <div className="form1-gender-options">
@@ -135,6 +146,7 @@ export default function Form1() {
           <div className="form1-error">
             {errors.gender && <p>{errors.gender.message}</p>}
           </div>
+
           <label htmlFor="country">Select country:</label>
           <input
             className="form1-input-text"
@@ -146,13 +158,19 @@ export default function Form1() {
           <div className="form1-error">
             {errors.country && <p>{errors.country.message}</p>}
           </div>
-          {/* <label htmlFor="picture">Choose a profile picture:</label>
-            <input
-              type="file"
-              id="picture"
-              name="picture"
-              accept="image/png, image/jpeg"
-            /> */}
+
+          <label htmlFor="picture">Choose a profile picture:</label>
+          <input
+            className="form1-input-file"
+            type="file"
+            id="picture"
+            name="picture"
+            accept="image/png, image/jpeg"
+          />
+          <div className="form1-error">
+            {errors.picture && <p>{errors.picture.message}</p>}
+          </div>
+
           <label htmlFor="password">Password:</label>
           <input
             className="form1-input-text"
@@ -163,6 +181,7 @@ export default function Form1() {
           <div className="form1-error">
             {errors.password && <p>{errors.password.message}</p>}
           </div>
+
           <label htmlFor="confirm_password">Confirm password:</label>
           <input
             className="form1-input-text"
@@ -175,6 +194,7 @@ export default function Form1() {
               <p>{errors.confirm_password.message}</p>
             )}
           </div>
+
           <div className="form1-accept-terms">
             <input type="checkbox" id="accept" name="accept"></input>
             <label htmlFor="accept">Accept terms and conditions</label>
@@ -182,6 +202,7 @@ export default function Form1() {
           <div className="form1-error">
             {errors.accept && <p>{errors.accept.message}</p>}
           </div>
+
           <div className="form1-buttons">
             <button className="form1-button submit-button" type="submit">
               SUBMIT

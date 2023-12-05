@@ -28,6 +28,19 @@
   width: 100%;
 }
 
+.form1-input-file::file-selector-button {
+  width: 80px;
+  height: 25px;
+  position: relative;
+  background: #32CD32;
+  border-radius: 50% / 15%;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px #FFFFFF solid;
+  cursor: pointer;
+}
+
 .form1-error {
   margin: 0;
   height: 20px;

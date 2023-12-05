@@ -4,10 +4,11 @@ import { saveUsersData } from "../../redux/usersDataSlice";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import "./Form2.css";
-import { UserData } from "../../types/types";
+import { UserData, FormInputs } from "../../types/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import yupSchema from "../../yup/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { convertToBase64 } from "../../utils/utils";
 
 export default function Form2() {
   const navigate = useNavigate();
@@ -18,10 +19,27 @@ export default function Form2() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserData>({ mode: "onChange", resolver: yupResolver(yupSchema) });
+  } = useForm<FormInputs>({
+    mode: "onChange",
+    resolver: yupResolver(yupSchema),
+  });
 
-  const doSubmit: SubmitHandler<UserData> = (formData) => {
-    const newData: UserData[] = [...data, formData];
+  const doSubmit: SubmitHandler<FormInputs> = async (formData) => {
+    const transformedPicture = formData.picture
+      ? await convertToBase64(formData.picture[0])
+      : "null";
+    const addition = {
+      name: formData.name,
+      age: +formData.age,
+      email: formData.email,
+      gender: formData.gender,
+      country: formData.country,
+      picture: transformedPicture,
+      password: formData.password,
+      confirm_password: formData.confirm_password,
+      accept: formData.accept,
+    };
+    const newData: UserData[] = [...data, addition];
     dispatch(saveUsersData(newData));
     navigate(-1);
   };
@@ -46,6 +64,7 @@ export default function Form2() {
           <div className="form2-error">
             {errors.name && <p>{errors.name.message}</p>}
           </div>
+
           <label htmlFor="age">Age:</label>
           <input
             className="form2-input-text"
@@ -56,6 +75,7 @@ export default function Form2() {
           <div className="form2-error">
             {errors.age && <p>{errors.age.message}</p>}
           </div>
+
           <label htmlFor="email">E-mail:</label>
           <input
             className="form2-input-text"
@@ -66,6 +86,7 @@ export default function Form2() {
           <div className="form2-error">
             {errors.email && <p>{errors.email.message}</p>}
           </div>
+
           <div className="form2-gender-choice">
             <p>Gender:</p>
             <div className="form2-gender-options">
@@ -101,6 +122,7 @@ export default function Form2() {
           <div className="form2-error">
             {errors.gender && <p>{errors.gender.message}</p>}
           </div>
+
           <label htmlFor="country">Select country:</label>
           <input
             className="form2-input-text"
@@ -112,13 +134,19 @@ export default function Form2() {
           <div className="form2-error">
             {errors.country && <p>{errors.country.message}</p>}
           </div>
-          {/* <label htmlFor="picture">Choose a profile picture:</label>
-            <input
-              type="file"
-              id="picture"
-              name="picture"
-              accept="image/png, image/jpeg"
-            /> */}
+
+          <label htmlFor="picture">Choose a profile picture:</label>
+          <input
+            className="form2-input-file"
+            type="file"
+            id="picture"
+            {...register("picture")}
+            accept="image/png, image/jpeg"
+          />
+          <div className="form1-error">
+            {errors.picture && <p>{errors.picture.message}</p>}
+          </div>
+
           <label htmlFor="password">Password:</label>
           <input
             className="form2-input-text"
@@ -129,6 +157,7 @@ export default function Form2() {
           <div className="form2-error">
             {errors.password && <p>{errors.password.message}</p>}
           </div>
+
           <label htmlFor="confirm-password">Confirm password:</label>
           <input
             className="form2-input-text"
@@ -141,6 +170,7 @@ export default function Form2() {
               <p>{errors.confirm_password.message}</p>
             )}
           </div>
+
           <div className="form2-accept-terms">
             <input type="checkbox" id="accept" {...register("accept")}></input>
             <label htmlFor="accept">Accept terms and conditions</label>
@@ -148,6 +178,7 @@ export default function Form2() {
           <div className="form2-error">
             {errors.accept && <p>{errors.accept.message}</p>}
           </div>
+
           <div className="form1-buttons">
             <button className="form2-button submit-button" type="submit">
               SUBMIT
