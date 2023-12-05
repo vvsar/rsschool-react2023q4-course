@@ -1,0 +1,90 @@
+.form1-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form1-notice {
+  color: #FFFFFF;
+  font-size: 20px;
+  padding: 0;
+  line-height: 1;
+}
+
+.form1-wrapper {
+  padding: 10px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border: 5px solid #32CD32;
+  border-radius: 10px;
+  color: #FFFFFF;
+}
+
+.form1-input-text {
+  width: 100%;
+}
+
+.form1-input-file::file-selector-button {
+  width: 80px;
+  height: 25px;
+  position: relative;
+  background: #32CD32;
+  border-radius: 50% / 15%;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px #FFFFFF solid;
+  cursor: pointer;
+}
+
+.form1-error {
+  margin: 0;
+  height: 20px;
+  line-height: normal;
+}
+
+.form1-error p {
+  margin: 0;
+  padding: 0;
+  color: #FF0000;
+  font-size: 14px;
+}
+
+.form1-gender-choice {
+  display: flex;
+  gap: 20px;
+}
+
+.form1-gender-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.form1-gender-option {
+  display: flex;
+}
+
+.form1-accept-terms {
+  display: flex;
+}
+
+.form1-buttons {
+  align-self: center;
+}
+
+.form1-button {
+  width: 80px;
+  height: 30px;
+  position: relative;
+  background: #32CD32;
+  border-radius: 50% / 15%;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px #FFFFFF solid;
+  cursor: pointer;
+}

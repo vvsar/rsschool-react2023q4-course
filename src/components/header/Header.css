@@ -1,0 +1,14 @@
+
+.header {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(330deg, #32CD32, #4169E1);
+}
+
+.title {
+  color: #FFFFFF;
+  line-height: 0.5;
+}
