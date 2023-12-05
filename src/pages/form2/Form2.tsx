@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import "./Form2.css";
 import { UserData, FormInputs } from "../../types/types";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import yupSchema from "../../yup/yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { convertToBase64 } from "../../utils/utils";
+import InputCountry from "../../components/inputcountry/InputCountry";
 
 export default function Form2() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Form2() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormInputs>({
     mode: "onChange",
@@ -123,14 +125,21 @@ export default function Form2() {
             {errors.gender && <p>{errors.gender.message}</p>}
           </div>
 
-          <label htmlFor="country">Select country:</label>
+          <Controller
+            control={control}
+            name="country"
+            render={({ field: { onChange } }) => (
+              <InputCountry onChange={onChange} />
+            )}
+          />
+          {/* <label htmlFor="country">Select country:</label>
           <input
             className="form2-input-text"
             id="country"
             type="text"
             autoComplete="country-name"
             {...register("country")}
-          ></input>
+          ></input> */}
           <div className="form2-error">
             {errors.country && <p>{errors.country.message}</p>}
           </div>

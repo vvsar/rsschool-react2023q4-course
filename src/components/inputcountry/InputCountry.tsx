@@ -2,7 +2,11 @@ import { useState, useRef } from "react";
 import { countries } from "../../types/countries";
 import "./InputCountry.css";
 
-export default function InputCountry() {
+type Props = {
+  onChange?: (value: string) => void;
+};
+
+export default function InputCountry({ onChange }: Props) {
   const [readyOptions, setReadyOptions] = useState([] as string[]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -25,6 +29,7 @@ export default function InputCountry() {
     if (inputRef.current) {
       inputRef.current.value = newInput;
     }
+    onChange?.(newInput);
     updateReadyOptions(newInput);
   };
 
