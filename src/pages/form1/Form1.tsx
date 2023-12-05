@@ -9,6 +9,7 @@ import { UserData, DataForm } from "../../types/types";
 import { convertToBase64 } from "../../utils/utils";
 import { ValidationError } from "yup";
 import yupSchema from "../../yup/yup";
+import InputCountry from "../../components/inputcountry/InputCountry";
 
 export default function Form1() {
   const navigate = useNavigate();
@@ -147,14 +148,8 @@ export default function Form1() {
             {errors.gender && <p>{errors.gender.message}</p>}
           </div>
 
-          <label htmlFor="country">Select country:</label>
-          <input
-            className="form1-input-text"
-            id="country"
-            name="country"
-            type="text"
-            autoComplete="country-name"
-          ></input>
+          <InputCountry />
+
           <div className="form1-error">
             {errors.country && <p>{errors.country.message}</p>}
           </div>
